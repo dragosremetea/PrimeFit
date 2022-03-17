@@ -1,5 +1,5 @@
 # PrimeFit tool - it fits your gym
-#![](https://github.com/dragosremetea/PrimeFit/blob/main/Logo.png)
+![](https://github.com/dragosremetea/PrimeFit/blob/main/Logo.png)
 ## General Description:
 This website is an administrative tool for gym organization, administration, and registration.
 
