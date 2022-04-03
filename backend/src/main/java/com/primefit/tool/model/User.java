@@ -48,7 +48,7 @@ public class User {
     @Column(name = "email", nullable = false, columnDefinition = "TEXT")
     private String email;
 
-    @Column(name = "phone_number", nullable = false, columnDefinition = "BIGINT")
+    @Column(name = "phone_number", nullable = false, columnDefinition = "TEXT")
     private String phoneNumber;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -59,7 +59,7 @@ public class User {
     @Column(name = "gym_subscription_start_date", nullable = false, columnDefinition = "DATE")
     private LocalDate gymSubscriptionStartDate;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 }

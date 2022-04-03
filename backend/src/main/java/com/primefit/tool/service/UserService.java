@@ -32,4 +32,8 @@ public class UserService {
     public Optional<User> get(Integer id) {
         return userRepository.findById(id);
     }
+
+    public boolean checkIfUsernameAlreadyExists(String username) {
+        return userRepository.getUserByUsername(username).isPresent();
+    }
 }
