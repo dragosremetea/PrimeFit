@@ -1,24 +1,24 @@
 package com.primefit.tool;
 
+import com.primefit.tool.exceptions.UsernameAlreadyExistsException;
 import com.primefit.tool.model.Role;
 import com.primefit.tool.model.User;
-import com.primefit.tool.service.RoleService;
-import com.primefit.tool.service.UserService;
+import com.primefit.tool.service.roleservice.RoleService;
+import com.primefit.tool.service.userservice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
-
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
@@ -35,17 +35,18 @@ public class PrimeFitApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(PrimeFitApplication.class, args);
+
     }
 
     @Override
-    public void run(String... args) {
+    public void run(String... args) throws UsernameAlreadyExistsException {
         insertPredefinedAdmin();
     }
 
-    private void insertPredefinedAdmin() {
+    private void insertPredefinedAdmin() throws UsernameAlreadyExistsException {
         String adminData = "admin";
 
-        if (!userService.checkIfUsernameAlreadyExists(adminData)) {
+        if (!userService.IsUsernameAlreadyExists(adminData)) {
 
             Role role = new Role();
             role.setName("ADMIN");
@@ -77,7 +78,7 @@ public class PrimeFitApplication implements CommandLineRunner {
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
         corsConfiguration.setAllowedHeaders(Arrays.asList("Origin", "Access-Control-Allow-Origin", "Content-Type",
                 "Accept", "Authorization", "Origin, Accept", "X-Requested-With",
                 "Access-Control-Request-Method", "Access-Control-Request-Headers"));

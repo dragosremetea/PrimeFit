@@ -1,6 +1,7 @@
 package com.primefit.tool.security;
 
 import com.primefit.tool.service.userservice.impl.UserDetailsServiceImpl;
+
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

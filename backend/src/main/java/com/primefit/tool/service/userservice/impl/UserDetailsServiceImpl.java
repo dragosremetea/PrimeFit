@@ -1,4 +1,4 @@
-package com.primefit.tool.service;
+package com.primefit.tool.service.userservice.impl;
 
 import com.primefit.tool.model.User;
 import com.primefit.tool.repository.UserRepository;
