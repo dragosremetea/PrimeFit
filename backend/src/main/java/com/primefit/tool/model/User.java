@@ -12,8 +12,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
-                        @UniqueConstraint(name = "user_email_unique", columnNames = "email"),
-                        @UniqueConstraint(name = "user_username_unique", columnNames = "username")})
+        @UniqueConstraint(name = "user_email_unique", columnNames = "email"),
+        @UniqueConstraint(name = "user_username_unique", columnNames = "username")})
 @Getter
 @Setter
 @NoArgsConstructor

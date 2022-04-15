@@ -1,6 +1,6 @@
 package com.primefit.tool.security;
 
-import com.primefit.tool.service.UserDetailsServiceImpl;
+import com.primefit.tool.service.userservice.impl.UserDetailsServiceImpl;
 
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
@@ -49,7 +49,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/css/**", "/static/js/**", "/images/**", "/register", "/login", "/users").permitAll()
+                .antMatchers("/", "/register", "/login", "/users", "/users/{id}").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
