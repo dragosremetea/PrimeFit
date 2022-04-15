@@ -1,7 +1,6 @@
 package com.primefit.tool.security;
 
-import com.primefit.tool.service.UserDetailsServiceImpl;
-
+import com.primefit.tool.service.userservice.impl.UserDetailsServiceImpl;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,12 +48,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/css/**", "/static/js/**", "/images/**", "/register", "/login", "/users").permitAll()
+                .antMatchers("/", "/register", "/login", "/users", "/users/{id}", "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-//                .loginPage("/login").failureUrl("/login_error").permitAll()
-                .and()
+                //.formLogin()
+                //.loginPage("/login").permitAll()
+               // .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)        // set invalidation state when logout
                 .deleteCookies("JSESSIONID").permitAll();
