@@ -49,12 +49,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/register", "/login", "/users", "/users/{id}").permitAll()
+                .antMatchers("/", "/register", "/login", "/users", "/users/{id}", "/login").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin()
-//                .loginPage("/login").failureUrl("/login_error").permitAll()
-                .and()
+                //.formLogin()
+                //.loginPage("/login").permitAll()
+               // .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)        // set invalidation state when logout
                 .deleteCookies("JSESSIONID").permitAll();
