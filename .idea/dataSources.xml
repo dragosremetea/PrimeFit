@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="PrimeFit_Tool@localhost" uuid="3cd166a2-416c-4a40-af83-33deab835ac3">
+    <data-source source="LOCAL" name="primefit@localhost" uuid="f4ad6ee5-9663-4114-b799-23f9c9087c38">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/PrimeFit_Tool</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/primefit</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
