@@ -2,6 +2,7 @@ package com.primefit.tool.security;
 
 import com.primefit.tool.service.userservice.impl.UserDetailsServiceImpl;
 
+import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -24,16 +26,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new UserDetailsServiceImpl();
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authProvider;
     }
 
@@ -49,12 +48,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/register", "/login", "/users", "/users/{id}", "/login").permitAll()
+                .antMatchers("/", "/login", "/users/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                //.formLogin()
-                //.loginPage("/login").permitAll()
-               // .and()
+                .formLogin()
+                .loginPage("/login").permitAll()
+               .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)        // set invalidation state when logout
                 .deleteCookies("JSESSIONID").permitAll();
