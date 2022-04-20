@@ -1,11 +1,13 @@
 package com.primefit.tool;
 
 import com.primefit.tool.exceptions.UsernameAlreadyExistsException;
+import com.primefit.tool.model.ConfirmationToken;
 import com.primefit.tool.model.Role;
 import com.primefit.tool.model.User;
+import com.primefit.tool.service.confirmationtokenservive.ConfirmationTokenService;
 import com.primefit.tool.service.roleservice.RoleService;
 import com.primefit.tool.service.userservice.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,22 +18,24 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @SpringBootApplication
+@AllArgsConstructor
 public class PrimeFitApplication implements CommandLineRunner {
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private RoleService roleService;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private ConfirmationTokenService confirmationTokenService;
 
     public static void main(String[] args) {
         SpringApplication.run(PrimeFitApplication.class, args);
@@ -45,32 +49,32 @@ public class PrimeFitApplication implements CommandLineRunner {
 
     private void insertPredefinedAdmin() throws UsernameAlreadyExistsException {
         String adminData = "admin";
+        String adminPhoneNumber = "1234567890";
+        String adminEmail = "primefittool@gmail.com";
+        LocalDate dateOfBirth = LocalDate.of(2000, 12, 12);
+        LocalDate GymSubscriptionStartDate = LocalDate.of(2000, 12, 12);
 
         if (!userService.IsUsernameAlreadyExists(adminData)) {
 
-            Role role = new Role();
-            role.setName("ADMIN");
+            Role role = new Role("ADMIN");
             roleService.save(role);
-
-            User admin = new User();
             Set<Role> set = new HashSet<>();
             set.add(role);
 
-            LocalDate dateOfBirth = LocalDate.of(2000, 12, 12);
-            LocalDate GymSubscriptionStartDate = LocalDate.of(2000, 12, 12);
+            User admin = new User(adminData, passwordEncoder.encode(adminData), adminData, adminData,
+                    185, 91.3f, adminEmail, adminPhoneNumber, dateOfBirth, GymSubscriptionStartDate, set);
+            admin.setLocked(false);
+            admin.setEnabled(true);
 
-            admin.setUsername(adminData);
-            admin.setPassword(passwordEncoder.encode(adminData));
-            admin.setFirstName(adminData);
-            admin.setLastName(adminData);
-            admin.setHeight(185);
-            admin.setWeight(91.3f);
-            admin.setDateOfBirth(dateOfBirth);
-            admin.setGymSubscriptionStartDate(GymSubscriptionStartDate);
-            admin.setEmail(adminData);
-            admin.setPhoneNumber("1234567890");
-            admin.setRoles(set);
             userService.save(admin);
+
+            ConfirmationToken adminConfirmationToken = new ConfirmationToken(adminData,
+                    LocalDateTime.of(LocalDate.of(2022, 2, 2), LocalTime.of(10, 11, 19)),
+                    LocalDateTime.of(LocalDate.of(2022, 2, 2), LocalTime.of(10, 11, 19)),
+                    LocalDateTime.of(LocalDate.of(2022, 2, 2), LocalTime.of(10, 11, 19)),
+                    admin);
+
+            confirmationTokenService.saveConfirmationToken(adminConfirmationToken);
         }
     }
 

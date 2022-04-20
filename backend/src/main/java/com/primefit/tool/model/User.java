@@ -39,10 +39,10 @@ public class User {
     @Column(name = "last_name", nullable = false, columnDefinition = "TEXT")
     private String lastName;
 
-    @Column(name = "height", nullable = false, columnDefinition = "INTEGER")
+    @Column(name = "height", columnDefinition = "INTEGER")
     private int height;
 
-    @Column(name = "weight", nullable = false, columnDefinition = "FLOAT")
+    @Column(name = "weight", columnDefinition = "FLOAT")
     private float weight;
 
     @Column(name = "email", nullable = false, columnDefinition = "TEXT")
@@ -52,15 +52,34 @@ public class User {
     private String phoneNumber;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @Column(name = "day_of_birth", nullable = false, columnDefinition = "DATE")
+    @Column(name = "day_of_birth", columnDefinition = "DATE")
     private LocalDate dateOfBirth;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @Column(name = "gym_subscription_start_date", nullable = false, columnDefinition = "DATE")
+    @Column(name = "gym_subscription_start_date", columnDefinition = "DATE")
     private LocalDate gymSubscriptionStartDate;
 
+    private Boolean locked = false;
+
+    private Boolean enabled = false;        //poate fac cu BIT
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
+
+
+    public User(String username, String password, String firstName, String lastName, int height, float weight, String email,
+                String phoneNumber, LocalDate dateOfBirth, LocalDate gymSubscriptionStartDate, Set<Role> roles) {
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.height = height;
+        this.weight = weight;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.gymSubscriptionStartDate = gymSubscriptionStartDate;
+        this.roles = roles;
+    }
 }
 

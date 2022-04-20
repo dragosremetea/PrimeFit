@@ -5,12 +5,13 @@ import com.primefit.tool.exceptions.InvalidEmailException;
 import com.primefit.tool.exceptions.UsernameAlreadyExistsException;
 import com.primefit.tool.exceptions.WeakPasswordException;
 import com.primefit.tool.model.User;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface UserService  {
+public interface UserService {
 
     List<User> listAll();
 
@@ -31,4 +32,12 @@ public interface UserService  {
     void checkIfEmailAlreadyExists(String email) throws EmailAlreadyExistsException;
 
     void checkIfEmailIsValid(String username) throws InvalidEmailException;
+
+    String signUpUser(User appUser);
+
+    int enableAppUser(String email);
+
+    String confirmToken(String token);
+
+    String register(@NotNull User request) throws InvalidEmailException;
 }
