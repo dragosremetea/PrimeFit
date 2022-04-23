@@ -66,7 +66,7 @@ public class PrimeFitApplication implements CommandLineRunner {
             admin.setLocked(false);
             admin.setEnabled(true);
 
-            userService.save(admin);
+            userService.saveOrUpdate(admin);
 
             ConfirmationToken adminConfirmationToken = new ConfirmationToken(adminData,
                     LocalDateTime.of(LocalDate.of(2022, 2, 2), LocalTime.of(10, 11, 19)),

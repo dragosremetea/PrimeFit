@@ -9,19 +9,20 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserService {
 
     List<User> listAll();
 
-    User save(User user);
+    User getById(Integer id);
+
+    Optional<User> findByUsername(String username);
+
+    User saveOrUpdate(User user);
 
     void delete(Integer id);
-
-    User updateUser(User user);
-
-    User get(Integer id);
 
     void checkIfUsernameAlreadyExists(String username) throws UsernameAlreadyExistsException;
 

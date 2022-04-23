@@ -18,6 +18,7 @@ import javax.mail.internet.InternetAddress;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -37,10 +38,22 @@ public class UserServiceImpl implements UserService {
         return new ArrayList<>(userRepository.findAll());
     }
 
-    public User save(User user) {
+    @Override
+    public User getById(Integer id) {
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User saveOrUpdate(User user) {
         return userRepository.save(user);
     }
 
+    @Override
     public void delete(Integer id) {
         // check whether a user exist in a DB or not
         userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
@@ -48,25 +61,17 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
-
-    public User get(Integer id) {
-        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
-    }
-
     public void checkIfUsernameAlreadyExists(String username) throws UsernameAlreadyExistsException {
-        if (userRepository.getUserByUsername(username).isPresent())
+        if (userRepository.findByUsername(username).isPresent())
             throw new UsernameAlreadyExistsException(username);
     }
 
     public boolean IsUsernameAlreadyExists(String username) {
-        return userRepository.getUserByUsername(username).isPresent();
+        return userRepository.findByUsername(username).isPresent();
     }
 
     public void checkIfEmailAlreadyExists(String email) throws EmailAlreadyExistsException {
-        if (userRepository.getUserByEmail(email).isPresent())
+        if (userRepository.findByEmail(email).isPresent())
             throw new EmailAlreadyExistsException(email);
     }
 
@@ -118,7 +123,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public String signUpUser(@NotNull User appUser) {
-        boolean userExists = userRepository.getUserByUsername(appUser.getUsername()).isPresent();
+        boolean userExists = userRepository.findByUsername(appUser.getUsername()).isPresent();
 
         if (userExists) {
             throw new IllegalStateException("email already taken");
