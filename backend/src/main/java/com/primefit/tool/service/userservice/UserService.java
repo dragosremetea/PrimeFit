@@ -24,21 +24,15 @@ public interface UserService {
 
     void delete(Integer id);
 
-    void checkIfUsernameAlreadyExists(String username) throws UsernameAlreadyExistsException;
-
     boolean IsUsernameAlreadyExists(String username) throws UsernameAlreadyExistsException;
-
-    void checkPasswordFormat(String password) throws WeakPasswordException;
-
-    void checkIfEmailAlreadyExists(String email) throws EmailAlreadyExistsException;
 
     void checkIfEmailIsValid(String username) throws InvalidEmailException;
 
-    String signUpUser(User appUser);
+    String signUpUser(User appUser) throws UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException;
 
-    int enableAppUser(String email);
+    int enableUser(String email);
 
     String confirmToken(String token);
 
-    String register(@NotNull User request) throws InvalidEmailException;
+    String register(@NotNull User request) throws InvalidEmailException, UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException;
 }

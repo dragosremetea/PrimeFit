@@ -1,0 +1,34 @@
+{
+  "properties": [
+    {
+      "name": "server",
+      "type": "java.lang.String",
+      "description": "Description for server."
+    },
+    {
+      "name": "error",
+      "type": "java.lang.String",
+      "description": "Description for error."
+    },
+    {
+      "name": "include-message",
+      "type": "java.lang.String",
+      "description": "Description for include-message."
+    },
+    {
+      "name": "include-stacktrace",
+      "type": "java.lang.String",
+      "description": "Description for include-stacktrace."
+    },
+    {
+      "name": "include-exception",
+      "type": "java.lang.String",
+      "description": "Description for include-exception."
+    },
+    {
+      "name": "include-binding-errors",
+      "type": "java.lang.String",
+      "description": "Description for include-binding-errors."
+    }
+  ]
+}

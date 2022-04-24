@@ -8,6 +8,7 @@ import com.primefit.tool.service.confirmationtokenservive.ConfirmationTokenServi
 import com.primefit.tool.service.emailsenderservice.EmailService;
 import com.primefit.tool.service.userservice.UserService;
 import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class UserServiceImpl implements UserService {
 
     private final EmailService emailService;
 
+    @Override
     public List<User> listAll() {
         return new ArrayList<>(userRepository.findAll());
     }
@@ -66,6 +68,7 @@ public class UserServiceImpl implements UserService {
             throw new UsernameAlreadyExistsException(username);
     }
 
+    @Override
     public boolean IsUsernameAlreadyExists(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
@@ -75,6 +78,7 @@ public class UserServiceImpl implements UserService {
             throw new EmailAlreadyExistsException(email);
     }
 
+    @Override
     public void checkIfEmailIsValid(String email) throws InvalidEmailException {
         if (!isValidEmailAddress(email))
             throw new InvalidEmailException(email);
@@ -122,17 +126,15 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    public String signUpUser(@NotNull User appUser) {
-        boolean userExists = userRepository.findByUsername(appUser.getUsername()).isPresent();
+    @Override
+    public String signUpUser(@NotNull User appUser) throws UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException {
 
-        if (userExists) {
-            throw new IllegalStateException("email already taken");
-        }
+        checkIfEmailAlreadyExists(appUser.getEmail());
+        checkIfUsernameAlreadyExists(appUser.getUsername());
 
+        checkPasswordFormat(appUser.getPassword());
         String encodedPassword = bCryptPasswordEncoder.encode(appUser.getPassword());
-
         appUser.setPassword(encodedPassword);
-
         userRepository.save(appUser);
 
         String token = UUID.randomUUID().toString();
@@ -144,18 +146,18 @@ public class UserServiceImpl implements UserService {
                 LocalDateTime.now(),
                 appUser
         );
-
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
         return token;
     }
 
-    public int enableAppUser(String email) {
-        return userRepository.enableAppUser(email);
+    @Override
+    public int enableUser(String email) {
+        return userRepository.enableUser(email);
     }
 
-
-    public String register(@NotNull User request) throws InvalidEmailException {
+    @Override
+    public String register(@NotNull User request) throws InvalidEmailException, UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException {
 
         checkIfEmailIsValid(request.getEmail());
 
@@ -183,6 +185,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
+    @Override
     public String confirmToken(String token) {
 
         ConfirmationToken confirmationToken = confirmationTokenService
@@ -191,12 +194,13 @@ public class UserServiceImpl implements UserService {
 
         confirmationTokenService.setConfirmedAt(token);
 
-        enableAppUser(confirmationToken.getUser().getEmail());
+        enableUser(confirmationToken.getUser().getEmail());
 
         return "Email confirmed!";
     }
 
-    private String buildEmail(String name, String link) {
+    @Contract(pure = true)
+    private @NotNull String buildEmail(String name, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +
                 "\n" +
                 "<span style=\"display:none;font-size:1px;color:#fff;max-height:0\"></span>\n" +
