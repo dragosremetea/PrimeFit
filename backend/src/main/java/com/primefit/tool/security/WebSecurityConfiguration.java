@@ -1,7 +1,6 @@
 package com.primefit.tool.security;
 
 import com.primefit.tool.service.userservice.impl.UserDetailsServiceImpl;
-
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.context.annotation.Bean;
@@ -44,19 +43,24 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(@NotNull HttpSecurity http) throws Exception {
+
         http
                 .csrf().disable()
                 .headers().frameOptions().disable()
                 .and()
                 .authorizeRequests()
+                .antMatchers("/trainings/**").hasAnyAuthority("ADMIN")
                 .antMatchers("/", "/login", "/users/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-               .and()
+                .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)        // set invalidation state when logout
                 .deleteCookies("JSESSIONID").permitAll();
+
+
+
     }
 }
