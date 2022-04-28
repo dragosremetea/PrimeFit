@@ -37,7 +37,7 @@ public class UserController {
 
     @GetMapping("{id}")
     public ResponseEntity<User> findUserById(@PathVariable("id") Integer id) {
-        User user = userService.getById(id);
+        User user = userService.findById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -47,9 +47,32 @@ public class UserController {
         userService.delete(id);
     }
 
-    @PutMapping
-    public ResponseEntity<User> updateUser(@RequestBody User user) {
-        return new ResponseEntity<>(userService.saveOrUpdate(user), HttpStatus.OK);
+    @PutMapping("{id}")
+    public ResponseEntity<User> saveOrUpdateUser(@RequestBody User newUser, @PathVariable Integer id) {
+
+        Optional<User> optionalUser = Optional.ofNullable(this.userService.findById(id));
+
+        return optionalUser
+                .map(user -> {
+                    user.setUsername(newUser.getUsername());
+                    user.setPassword(newUser.getPassword());
+                    user.setFirstName(newUser.getFirstName());
+                    user.setLastName(newUser.getLastName());
+                    user.setHeight(newUser.getHeight());
+                    user.setWeight(newUser.getWeight());
+                    user.setEmail(newUser.getEmail());
+                    user.setPhoneNumber(newUser.getPhoneNumber());
+                    user.setDateOfBirth(newUser.getDateOfBirth());
+                    user.setGymSubscriptionStartDate(newUser.getGymSubscriptionStartDate());
+                    user.setRoles(newUser.getRoles());
+
+                    return new ResponseEntity<>(userService.saveOrUpdate(user), HttpStatus.CREATED);
+                })
+                .orElseGet(() -> {
+                    newUser.setId(id);
+                    return new ResponseEntity<>(userService.saveOrUpdate(newUser), HttpStatus.CREATED);
+                });
+
     }
 
     @PostMapping("/login")
