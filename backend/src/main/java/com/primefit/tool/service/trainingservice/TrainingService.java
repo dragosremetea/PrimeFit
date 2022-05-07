@@ -10,13 +10,15 @@ import java.util.Optional;
 @Component
 public interface TrainingService {
 
+    Training save(Training training);
+
     List<Training> findAll();
 
     Optional<Training> findById(@NotNull Integer id);
 
     Optional<Training> findByName(String name);
 
-    Training saveOrUpdate(Training training);
+    Training update(@NotNull Training newTraining, Integer id);
 
     void deleteById(Integer id);
 }

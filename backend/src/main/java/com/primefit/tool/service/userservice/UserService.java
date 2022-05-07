@@ -14,15 +14,17 @@ import java.util.Optional;
 @Repository
 public interface UserService {
 
-    List<User> listAll();
+    List<User> findAll();
 
     User findById(Integer id);
 
     Optional<User> findByUsername(String username);
 
-    User saveOrUpdate(User user);
+    User save(User user);
 
-    void delete(Integer id);
+    User update(User user, Integer id);
+
+    void deleteById(Integer id);
 
     boolean IsUsernameAlreadyExists(String username) throws UsernameAlreadyExistsException;
 
