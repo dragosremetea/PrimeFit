@@ -23,6 +23,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
+/**
+ * Service class for managing users.
+ */
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -35,63 +38,172 @@ public class UserServiceImpl implements UserService {
 
     private final EmailService emailService;
 
+    /**
+     * Get a list with all the trainings.
+     *
+     * @return a list with all the trainings.
+     */
     @Override
-    public List<User> listAll() {
+    public List<User> findAll() {
         return new ArrayList<>(userRepository.findAll());
     }
 
+    /**
+     * Find a specific user based on id.
+     *
+     * @param id
+     * @return found user.
+     */
     @Override
     public User findById(Integer id) {
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
+    /**
+     * Find a specific user based on username.
+     *
+     * @param username
+     * @return found user.
+     */
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
+    /**
+     * Save a user.
+     *
+     * @param user
+     * @return saved user.
+     */
     @Override
-    public User saveOrUpdate(User user) {
+    public User save(User user) {
         return userRepository.save(user);
     }
 
+    /**
+     * Update all information for a specific user.
+     *
+     * @param newUser
+     * @param id
+     * @return updated user.
+     */
     @Override
-    public void delete(Integer id) {
+    public User update(@NotNull User newUser, Integer id) {
+        User user = userRepository.findById(id).orElseThrow();
+
+        user.setUsername(newUser.getUsername());
+        user.setPassword(newUser.getPassword());
+        user.setFirstName(newUser.getFirstName());
+        user.setLastName(newUser.getLastName());
+        user.setHeight(newUser.getHeight());
+        user.setWeight(newUser.getWeight());
+        user.setEmail(newUser.getEmail());
+        user.setPhoneNumber(newUser.getPhoneNumber());
+        user.setDateOfBirth(newUser.getDateOfBirth());
+        user.setGymSubscriptionStartDate(newUser.getGymSubscriptionStartDate());
+        user.setRoles(newUser.getRoles());
+
+        return userRepository.save(user);
+    }
+
+    /**
+     * Delete a user by a specific id.
+     *
+     * @param id
+     */
+    @Override
+    public void deleteById(Integer id) {
         // check whether a user exist in a DB or not
         userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
 
         userRepository.deleteById(id);
     }
 
+    /**
+     * Check if the username already exists.
+     *
+     * @param username
+     * @throws UsernameAlreadyExistsException
+     */
     public void checkIfUsernameAlreadyExists(String username) throws UsernameAlreadyExistsException {
         if (userRepository.findByUsername(username).isPresent())
             throw new UsernameAlreadyExistsException(username);
     }
 
+    /**
+     * Check if the username already exists but no exception is thrown.
+     *
+     * @param username
+     * @return
+     */
     @Override
     public boolean IsUsernameAlreadyExists(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
 
+    /**
+     * Check if a user email already exists.
+     *
+     * @param email
+     * @throws EmailAlreadyExistsException
+     */
     public void checkIfEmailAlreadyExists(String email) throws EmailAlreadyExistsException {
         if (userRepository.findByEmail(email).isPresent())
             throw new EmailAlreadyExistsException(email);
     }
 
+    /**
+     * Verify is the user email is valid.
+     *
+     * @param email
+     * @throws InvalidEmailException
+     */
     @Override
     public void checkIfEmailIsValid(String email) throws InvalidEmailException {
         if (!isValidEmailAddress(email))
             throw new InvalidEmailException(email);
     }
 
+    private boolean isValidEmailAddress(String email) {
+
+        boolean result = true;
+        try {
+            InternetAddress emailAddress = new InternetAddress(email);
+            emailAddress.validate();
+        } catch (AddressException ex) {
+            result = false;
+        }
+
+        return result;
+    }
+
+    /**
+     * Check if the string contains at least 1 number.
+     *
+     * @param s
+     * @return
+     */
     public boolean stringContainsNumber(String s) {
         return Pattern.compile("\\d").matcher(s).find();
     }
 
+    /**
+     * Check if the string contains at least 1 upper case.
+     *
+     * @param s
+     * @return
+     */
     public boolean stringContainsUpperCase(String s) {
         return Pattern.compile("[A-Z]").matcher(s).find();
     }
 
+    /**
+     * Check if the password completes fulfill all criteria.
+     *
+     * @param password
+     * @throws WeakPasswordException
+     */
     public void checkPasswordFormat(String password) throws WeakPasswordException {
         checkIfPasswordContainsAtLeast8Characters(password);
         checkIfPasswordContainsAtLeast1Digit(password);
@@ -113,21 +225,9 @@ public class UserServiceImpl implements UserService {
             throw new WeakPasswordException("one upper case");
     }
 
-    public boolean isValidEmailAddress(String email) {
-
-        boolean result = true;
-        try {
-            InternetAddress emailAddress = new InternetAddress(email);
-            emailAddress.validate();
-        } catch (AddressException ex) {
-            result = false;
-        }
-
-        return result;
-    }
-
     @Override
-    public String signUpUser(@NotNull User appUser) throws UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException {
+    public String signUpUser(@NotNull User appUser) throws
+            UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException {
 
         checkIfEmailAlreadyExists(appUser.getEmail());
         checkIfUsernameAlreadyExists(appUser.getUsername());
@@ -157,7 +257,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String register(@NotNull User request) throws InvalidEmailException, UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException {
+    public String register(@NotNull User request) throws
+            InvalidEmailException, UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException {
 
         checkIfEmailIsValid(request.getEmail());
 

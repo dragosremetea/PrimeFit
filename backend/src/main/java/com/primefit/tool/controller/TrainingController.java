@@ -5,7 +5,6 @@ import com.primefit.tool.service.trainingservice.TrainingService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,29 +21,21 @@ public class TrainingController {
         return trainingService.findAll();
     }
 
-    @Secured("USER")
     @PostMapping
     public ResponseEntity<Training> saveTraining(@RequestBody Training training) {
-        return new ResponseEntity<>(trainingService.saveOrUpdate(training), HttpStatus.CREATED);
+        trainingService.save(training);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("{id}")
-    public void deleteTraining(@PathVariable Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Training> deleteTraining(@PathVariable Integer id) {
         trainingService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Training> saveOrUpdateTraining(@RequestBody Training newTraining, @PathVariable Integer id) {
-        return trainingService.findById(id)
-                .map(training -> {
-                    training.setName(newTraining.getName());
-                    training.setDuration(newTraining.getDuration());
-                    training.setTrainingIntensity(newTraining.getTrainingIntensity());
-                    return new ResponseEntity<>(trainingService.saveOrUpdate(training), HttpStatus.CREATED);
-                })
-                .orElseGet(() -> {
-                    newTraining.setId(id);
-                    return new ResponseEntity<>(trainingService.saveOrUpdate(newTraining), HttpStatus.CREATED);
-                });
+    @PutMapping("/{id}")
+    public ResponseEntity<Training> updateTraining(@RequestBody Training newTraining, @PathVariable Integer id) {
+        trainingService.update(newTraining, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

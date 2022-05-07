@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping
     public List<User> getAllUsers() {
-        return userService.listAll();
+        return userService.findAll();
     }
 
     @GetMapping("{id}")
@@ -42,37 +42,16 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public void deleteUserById(@PathVariable("id") Integer id) {
+    public ResponseEntity<User> deleteUserById(@PathVariable("id") Integer id) {
         confirmationTokenService.delete(id);
-        userService.delete(id);
+        userService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> saveOrUpdateUser(@RequestBody User newUser, @PathVariable Integer id) {
-
-        Optional<User> optionalUser = Optional.ofNullable(this.userService.findById(id));
-
-        return optionalUser
-                .map(user -> {
-                    user.setUsername(newUser.getUsername());
-                    user.setPassword(newUser.getPassword());
-                    user.setFirstName(newUser.getFirstName());
-                    user.setLastName(newUser.getLastName());
-                    user.setHeight(newUser.getHeight());
-                    user.setWeight(newUser.getWeight());
-                    user.setEmail(newUser.getEmail());
-                    user.setPhoneNumber(newUser.getPhoneNumber());
-                    user.setDateOfBirth(newUser.getDateOfBirth());
-                    user.setGymSubscriptionStartDate(newUser.getGymSubscriptionStartDate());
-                    user.setRoles(newUser.getRoles());
-
-                    return new ResponseEntity<>(userService.saveOrUpdate(user), HttpStatus.CREATED);
-                })
-                .orElseGet(() -> {
-                    newUser.setId(id);
-                    return new ResponseEntity<>(userService.saveOrUpdate(newUser), HttpStatus.CREATED);
-                });
-
+    public ResponseEntity<User> updateUser(@RequestBody User newUser, @PathVariable Integer id) {
+        userService.update(newUser, id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/login")
