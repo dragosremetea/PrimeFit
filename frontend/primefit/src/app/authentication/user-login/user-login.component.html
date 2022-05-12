@@ -1,14 +1,27 @@
-<div class="container col-md-6">
-    <h1 style="color:red">User Login</h1>
-    <form (ngSubmit)="userLogin()">
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Username</label>
-            <input type="text" [(ngModel)]="user.username" class="form-control" id="username" name="username" placeholder="*username">
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlInput2" class="form-label">Password</label>
-            <input type="password" [(ngModel)]="user.password" class="form-control" id="password" name="password" placeholder="*password">
-          </div>
-          <button type="submit" class="btn btn-primary">Login</button>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Login Form Example</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+  <link rel="stylesheet" href="./user-login.component.css">
+</head>
+  <div class="login-form">
+    <form>
+      <h1>Login</h1>
+      <div class="content">
+        <div class="input-field">
+          <input type="text" [(ngModel)]="user.username" placeholder="*Username" class="form-control" id="username" name="username">
+        </div>
+        <div class="input-field">
+          <input type="password" [(ngModel)]="user.password" placeholder="*Password" class="form-control"id="password" name="password">
+        </div>
+      </div>
+      <div class="action">
+        <button (click)="goToRegister()">Register</button>
+        <button (click)="userLogin()">Sign in</button>
+      </div>
     </form>
-</div>
+  </div>
+</html>

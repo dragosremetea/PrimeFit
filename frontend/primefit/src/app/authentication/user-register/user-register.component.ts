@@ -5,30 +5,29 @@ import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-user-login',
-  templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.css']
+  selector: 'app-user-register',
+  templateUrl: './user-register.component.html',
+  styleUrls: ['./user-register.component.css']
 })
-export class UserLoginComponent implements OnInit {
+export class UserRegisterComponent implements OnInit {
 
+  role: Role = new Role();
   user: User = new User();
-  valid: Boolean = false;
-
   constructor(
     private userService: UserService,
     private router: Router
-    ) { }
+  ) { }
 
   ngOnInit(): void {
   }
 
-  userLogin() {
-    this.userService.loginUser(this.user).subscribe(data => {
+  userRegister() {
+    this.role.id = 2;
+    this.role.name = "CLIENT";
+    this.user.role = this.role;
+    this.userService.register(this.user).subscribe(data => {
       this.router.navigate(['/']);
-    }, error => this.router.navigate(['/register']))
-  }
-
-  goToRegister() {
+    }, error => alert("Failed"))
     this.router.navigate(['/register']);
   }
 

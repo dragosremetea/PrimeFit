@@ -6,20 +6,26 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserService } from './services/user.service';
-import { UserComponent } from './user/user.component';
 import { UserLoginComponent } from './authentication/user-login/user-login.component';
+import { UserComponent } from './dashboard/components/user/user.component';
+import { UserRegisterComponent } from './authentication/user-register/user-register.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
-    UserLoginComponent
+    UserLoginComponent,
+    UserRegisterComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+  ],
+  exports: [
+    RouterModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]

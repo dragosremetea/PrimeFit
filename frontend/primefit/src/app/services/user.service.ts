@@ -10,9 +10,20 @@ import { environment } from "src/environments/environment";
 export class UserService {
     private apiServerUrl = environment.apiBaseUrl;
 
-    constructor(private http: HttpClient) {}
+    private baseUrl = "http://localhost:8080/users/login";
+    constructor(private httpClient: HttpClient) {}
 
-    public getUsers(): Observable<User[]> {
-        return this.http.get<User[]>(`${this.apiServerUrl}/users`);
+    loginUser(user: User): Observable<object> {
+        return this.httpClient.post(`${this.apiServerUrl}/users/login`, user);
     }
+
+    register(user: User): Observable<object> {
+        return this.httpClient.put(`${this.apiServerUrl}/users`, user);
+    }
+
+    getUsers(): Observable<User[]> {
+        return this.httpClient.get<User[]>(`${this.apiServerUrl}/users`);
+    }
+
+
 }

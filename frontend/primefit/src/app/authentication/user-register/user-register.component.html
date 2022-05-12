@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Login Form Example</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+  <link rel="stylesheet" href="./user-register.component.css">
+</head>
+  <div class="login-form">
+    <form>
+      <h1>Register</h1>
+      <div class="content">
+        <div class="input-field">
+          <input type="text" [(ngModel)]="user.username" placeholder="*Username" class="form-control" id="username" name="username">
+        </div>
+        <div class="input-field">
+          <input type="password" [(ngModel)]="user.password" placeholder="*Password" class="form-control"id="password" name="password">
+        </div>
+        <div class="input-field">
+          <input type="email" [(ngModel)]="user.email" placeholder="*Email" class="form-control"id="email" name="email">
+        </div>
+        <div class="input-field">
+          <input type="text" [(ngModel)]="user.firstName" placeholder="*First name" class="form-control" id="firstname" name="firstname">
+        </div>
+        <div class="input-field">
+          <input type="text" [(ngModel)]="user.lastName" placeholder="*Last name" class="form-control" id="lastname" name="lastname">
+        </div>
+        <div class="input-field">
+          <input type="number" [(ngModel)]="user.height" placeholder="*Height" class="form-control" id="height" name="height">
+        </div>
+        <div class="input-field">
+          <input type="number" [(ngModel)]="user.weight" placeholder="*Weight" class="form-control" id="weight" name="weight">
+        </div>
+        <div class="input-field">
+          <input type="text" [(ngModel)]="user.phoneNumber" placeholder="*Phone Number" class="form-control" id="phonenumber" name="phonenumber">
+        </div>
+        <div class="input-field">
+          <input type="date" [(ngModel)]="user.dateOfBirth" placeholder="*Date of Birth" class="form-control" id="date" name="date">
+        </div>
+      </div>
+      <div class="action">
+        <button (click)="userRegister()">Register</button>
+      </div>
+    </form>
+  </div>
+</html>
