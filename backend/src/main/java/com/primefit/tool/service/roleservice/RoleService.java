@@ -9,11 +9,10 @@ import java.util.Optional;
 @Repository
 public interface RoleService {
 
-    List<Role> findAll();
-
-    void save(Role role);
-
-    void delete(Integer id);
-
-    Optional<Role> get(Integer id);
+    /**
+     *
+     * @param role -  the role we want to save into the DB
+     * @return - the saved tole
+     */
+    Role save(Role role);
 }

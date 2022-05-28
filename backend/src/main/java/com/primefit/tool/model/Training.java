@@ -23,6 +23,9 @@ public class Training {
     @Column(name = "name", nullable = false, columnDefinition = "TEXT")
     private String name;
 
+    @Column(name = "pdfUrl", nullable = false, columnDefinition = "TEXT")
+    private String pdfUrl;
+
     @Column(name = "duration", nullable = false, columnDefinition = "FLOAT")
     private float duration;
 

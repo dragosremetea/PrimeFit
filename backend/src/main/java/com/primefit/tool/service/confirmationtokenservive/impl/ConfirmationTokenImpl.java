@@ -16,8 +16,8 @@ public class ConfirmationTokenImpl implements ConfirmationTokenService {
 
     private final ConfirmationTokenRepository confirmationTokenRepository;
 
-    public void saveConfirmationToken(ConfirmationToken token) {
-        confirmationTokenRepository.save(token);
+    public ConfirmationToken saveConfirmationToken(ConfirmationToken token) {
+        return confirmationTokenRepository.save(token);
     }
 
     public Optional<ConfirmationToken> getToken(String token) {
@@ -29,7 +29,7 @@ public class ConfirmationTokenImpl implements ConfirmationTokenService {
     }
 
     public void delete(Integer id) {
-        confirmationTokenRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+        confirmationTokenRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Token", "id", id));
 
         confirmationTokenRepository.deleteById(id);
     }

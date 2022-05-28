@@ -35,6 +35,12 @@ public class UserController {
         return userService.findAll();
     }
 
+    @PostMapping("")
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        User savedUser = userService.save(user);
+        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<User> findUserById(@PathVariable("id") Integer id) {
         User user = userService.findById(id);

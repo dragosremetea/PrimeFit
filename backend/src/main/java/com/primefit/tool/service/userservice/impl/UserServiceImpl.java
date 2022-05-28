@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,56 +39,29 @@ public class UserServiceImpl implements UserService {
 
     private final EmailService emailService;
 
-    /**
-     * Get a list with all the trainings.
-     *
-     * @return a list with all the trainings.
-     */
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public List<User> findAll() {
         return new ArrayList<>(userRepository.findAll());
     }
 
-    /**
-     * Find a specific user based on id.
-     *
-     * @param id
-     * @return found user.
-     */
     @Override
     public User findById(Integer id) {
         return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
-    /**
-     * Find a specific user based on username.
-     *
-     * @param username
-     * @return found user.
-     */
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
-    /**
-     * Save a user.
-     *
-     * @param user
-     * @return saved user.
-     */
     @Override
     public User save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    /**
-     * Update all information for a specific user.
-     *
-     * @param newUser
-     * @param id
-     * @return updated user.
-     */
     @Override
     public User update(@NotNull User newUser, Integer id) {
         User user = userRepository.findById(id).orElseThrow();
@@ -107,11 +81,6 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    /**
-     * Delete a user by a specific id.
-     *
-     * @param id
-     */
     @Override
     public void deleteById(Integer id) {
         // check whether a user exist in a DB or not
@@ -123,20 +92,14 @@ public class UserServiceImpl implements UserService {
     /**
      * Check if the username already exists.
      *
-     * @param username
-     * @throws UsernameAlreadyExistsException
+     * @param username - username of user
+     * @throws UsernameAlreadyExistsException - if a user with the same username already exists
      */
-    public void checkIfUsernameAlreadyExists(String username) throws UsernameAlreadyExistsException {
+    private void checkIfUsernameAlreadyExists(String username) throws UsernameAlreadyExistsException {
         if (userRepository.findByUsername(username).isPresent())
             throw new UsernameAlreadyExistsException(username);
     }
 
-    /**
-     * Check if the username already exists but no exception is thrown.
-     *
-     * @param username
-     * @return
-     */
     @Override
     public boolean IsUsernameAlreadyExists(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -145,20 +108,14 @@ public class UserServiceImpl implements UserService {
     /**
      * Check if a user email already exists.
      *
-     * @param email
-     * @throws EmailAlreadyExistsException
+     * @param email - email of user
+     * @throws EmailAlreadyExistsException - if a user with the same username already exists
      */
     public void checkIfEmailAlreadyExists(String email) throws EmailAlreadyExistsException {
         if (userRepository.findByEmail(email).isPresent())
             throw new EmailAlreadyExistsException(email);
     }
 
-    /**
-     * Verify is the user email is valid.
-     *
-     * @param email
-     * @throws InvalidEmailException
-     */
     @Override
     public void checkIfEmailIsValid(String email) throws InvalidEmailException {
         if (!isValidEmailAddress(email))
@@ -178,32 +135,14 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
-    /**
-     * Check if the string contains at least 1 number.
-     *
-     * @param s
-     * @return
-     */
     public boolean stringContainsNumber(String s) {
         return Pattern.compile("\\d").matcher(s).find();
     }
 
-    /**
-     * Check if the string contains at least 1 upper case.
-     *
-     * @param s
-     * @return
-     */
     public boolean stringContainsUpperCase(String s) {
         return Pattern.compile("[A-Z]").matcher(s).find();
     }
 
-    /**
-     * Check if the password completes fulfill all criteria.
-     *
-     * @param password
-     * @throws WeakPasswordException
-     */
     public void checkPasswordFormat(String password) throws WeakPasswordException {
         checkIfPasswordContainsAtLeast8Characters(password);
         checkIfPasswordContainsAtLeast1Digit(password);
@@ -225,8 +164,7 @@ public class UserServiceImpl implements UserService {
             throw new WeakPasswordException("one upper case");
     }
 
-    @Override
-    public String signUpUser(@NotNull User appUser) throws
+    private String signUpUser(@NotNull User appUser) throws
             UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException {
 
         checkIfEmailAlreadyExists(appUser.getEmail());
@@ -278,7 +216,7 @@ public class UserServiceImpl implements UserService {
                 )
         );
 
-        String link = "http://localhost:8080/users/confirm?token=" + token;
+        String link = "http://localhost:8080/users/confirm?token=" + token; //url for validating user acc
 
         emailService.send(request.getEmail(), buildEmail(request.getFirstName(), link));
 
@@ -357,7 +295,7 @@ public class UserServiceImpl implements UserService {
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
                 "      <td style=\"font-family:Helvetica,Arial,sans-serif;font-size:19px;line-height:1.315789474;max-width:560px\">\n" +
                 "        \n" +
-                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 15 minutes. <p>See you soon</p>" +
+                "            <p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\">Hi " + name + ",</p><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> Thank you for registering. Please click on the below link to activate your account: </p><blockquote style=\"Margin:0 0 20px 0;border-left:10px solid #b1b4b6;padding:15px 0 0.1px 15px;font-size:19px;line-height:25px\"><p style=\"Margin:0 0 20px 0;font-size:19px;line-height:25px;color:#0b0c0c\"> <a href=\"" + link + "\">Activate Now</a> </p></blockquote>\n Link will expire in 30 minutes. <p>See you soon</p>" +
                 "        \n" +
                 "      </td>\n" +
                 "      <td width=\"10\" valign=\"middle\"><br></td>\n" +
