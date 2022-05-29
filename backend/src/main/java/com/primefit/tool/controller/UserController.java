@@ -42,7 +42,14 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> findUserById(@PathVariable("id") Integer id) {
+    public ResponseEntity<User> findUserById(@PathVariable("id") String username) {
+        Optional<User> user = userService.findByUsername(username);
+
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<User> findUserByUsername(@PathVariable("id") Integer id) {
         User user = userService.findById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
