@@ -7,9 +7,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserService } from './services/user.service';
 import { UserLoginComponent } from './authentication/user-login/user-login.component';
-import { UserComponent } from './dashboard/components/user/user.component';
+import { UserComponent } from './dashboard/user/user.component';
 import { UserRegisterComponent } from './authentication/user-register/user-register.component';
 import { RouterModule } from '@angular/router';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+import { SidenavComponent } from './dashboard/sidenav/sidenav.component';
 
 @NgModule({
   declarations: [
@@ -17,12 +20,15 @@ import { RouterModule } from '@angular/router';
     UserComponent,
     UserLoginComponent,
     UserRegisterComponent,
+    SidenavComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
   ],
   exports: [
     RouterModule

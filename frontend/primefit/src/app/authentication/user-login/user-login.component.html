@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <title>Simple Login Form Example</title>
-  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
-  <link rel="stylesheet" href="./user-login.component.css">
-</head>
-  <div class="login-form">
-    <form>
-      <h1>Login</h1>
-      <div class="content">
-        <div class="input-field">
-          <input type="text" [(ngModel)]="user.username" placeholder="*Username" class="form-control" id="username" name="username">
-        </div>
-        <div class="input-field">
-          <input type="password" [(ngModel)]="user.password" placeholder="*Password" class="form-control"id="password" name="password">
-        </div>
-      </div>
-      <div class="action">
-        <button (click)="goToRegister()">Register</button>
-        <button (click)="userLogin()">Sign in</button>
-      </div>
-    </form>
-  </div>
-</html>
+<div class="login-wrapper">
+  <mat-card class="box">
+    <mat-card-header>
+      <mat-card-title>Log in</mat-card-title>
+    </mat-card-header>
+    <div class="example-form">
+      <mat-card-content>
+        <mat-form-field class="example-full-width">
+          <input matInput [(ngModel)]="user.username" placeholder="Username" type="text">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput [(ngModel)]="user.password" placeholder="Password" type="password">
+        </mat-form-field>
+      </mat-card-content>
+      <button mat-stroked-button color="basic" (click)="userLogin()" class="btn-block">Log in</button>
+    </div>
+  </mat-card>
+</div>
