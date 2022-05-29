@@ -25,5 +25,7 @@ export class UserService {
         return this.httpClient.get<User[]>(`${this.apiServerUrl}/users`);
     }
 
-
+    getUserByUsername(username: string): Observable<User> {
+        return this.httpClient.get<User>(`${this.apiServerUrl}/users/byUsername/${username}`);
+    }
 }

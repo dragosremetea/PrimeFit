@@ -12,5 +12,5 @@ export class User {
     phoneNumber!: string;
     dateOfBirth!: Date;
     gymSubscriptionStartDate!: Date;
-    role!: Role;
+    roles!: Role[];
 }

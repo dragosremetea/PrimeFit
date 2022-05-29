@@ -11,8 +11,10 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class UserRegisterComponent implements OnInit {
 
-  role: Role = new Role();
+  role: Role = new Role(2, "CLIENT");
+  roles: Role[] = [];
   user: User = new User();
+
   constructor(
     private userService: UserService,
     private router: Router
@@ -22,9 +24,8 @@ export class UserRegisterComponent implements OnInit {
   }
 
   userRegister() {
-    this.role.id = 2;
-    this.role.name = "CLIENT";
-    this.user.role = this.role;
+    this.roles.push(this.role);
+    this.user.roles = this.roles;
     this.userService.register(this.user).subscribe(data => {
       this.router.navigate(['/']);
     }, error => alert("Failed"))

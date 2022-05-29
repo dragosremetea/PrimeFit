@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from './models/user.model';
 import { UserService } from './services/user.service';
 
@@ -12,7 +13,10 @@ export class AppComponent implements OnInit{
   title = 'primefit';
   public users: User[] | undefined;
   
-  constructor(private userService: UserService){}
+  constructor(
+    private router: Router,
+    private userService: UserService
+    ){}
 
   ngOnInit() {
     this.getUsers();
