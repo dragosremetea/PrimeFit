@@ -25,7 +25,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return new UserDetailsServiceImpl();
     }
 
-
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Bean
@@ -51,18 +50,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpStrictTransportSecurity().disable()
                 .and()
                 .authorizeRequests()
-               // .antMatchers("").hasAnyAuthority("ADMIN")
-                .antMatchers("/", "/login", "/users/**","/trainings/**", "/trainings").permitAll()
+                // .antMatchers("").hasAnyAuthority("ADMIN")
+                .antMatchers("/", "/login", "/users/**", "/trainings/**", "/trainings").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-              //  .loginPage("/login").permitAll()
+                //  .loginPage("/login").permitAll()
                 .and()
                 .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
                 .invalidateHttpSession(true)        // set invalidation state when logout
                 .deleteCookies("JSESSIONID").permitAll();
-
-
-
     }
 }

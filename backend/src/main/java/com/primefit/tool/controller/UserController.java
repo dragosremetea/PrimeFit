@@ -41,19 +41,20 @@ public class UserController {
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
+    @GetMapping("/username")
+    public ResponseEntity<User> findUserByUsername(@RequestParam(value = "username") String username) {
+        Optional<User> user = userService.findByUsername(username);
+
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<User> findUserById(@PathVariable("id") Integer id) {
         User user = userService.findById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("{username}")
-    public ResponseEntity<User> findUserByUsername(@PathVariable("username") String username) {
-        Optional<User> user = userService.findByUsername(username);
 
-        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-    
     @DeleteMapping("{id}")
     public ResponseEntity<User> deleteUserById(@PathVariable("id") Integer id) {
         confirmationTokenService.delete(id);
@@ -80,10 +81,10 @@ public class UserController {
         throw new UsernameNotFoundException("Username: " + userData.getUsername() + " not found!");
     }
 
-    @PostMapping
-    public String register(@RequestBody User request) throws InvalidEmailException, UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException {
-        return userService.register(request);
-    }
+//    @PostMapping
+//    public String register(@RequestBody User request) throws InvalidEmailException, UsernameAlreadyExistsException, EmailAlreadyExistsException, WeakPasswordException {
+//        return userService.register(request);
+//    }
 
     @GetMapping("/confirm")
     public String confirm(@RequestParam("token") String token) {
