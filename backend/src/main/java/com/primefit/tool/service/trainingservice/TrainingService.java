@@ -2,7 +2,6 @@ package com.primefit.tool.service.trainingservice;
 
 import com.primefit.tool.model.Training;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -10,7 +9,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+/**
+ * Interface used for declaring the methods signatures that can be performed with a training.
+ */
 public interface TrainingService {
 
     /***
@@ -55,10 +56,9 @@ public interface TrainingService {
     void deleteById(Integer id);
 
     /**
-     *
      * @param file - the file we want to convert
-     * @return  converted file into a MultipartFile
-     * @throws IOException  - exception in case of failing conversion
+     * @return converted file into a MultipartFile
+     * @throws IOException - exception in case of failing conversion
      */
     File convertMultiPartToFile(@NotNull MultipartFile file) throws IOException;
 }

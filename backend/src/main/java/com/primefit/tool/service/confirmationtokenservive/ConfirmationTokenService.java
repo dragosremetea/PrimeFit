@@ -1,11 +1,12 @@
 package com.primefit.tool.service.confirmationtokenservive;
 
 import com.primefit.tool.model.ConfirmationToken;
-import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
+/**
+ * Interface used for declaring the methods signatures that can be performed with a confirmation token.
+ */
 public interface ConfirmationTokenService {
 
     /**

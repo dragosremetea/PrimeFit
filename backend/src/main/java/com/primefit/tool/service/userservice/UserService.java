@@ -6,18 +6,19 @@ import com.primefit.tool.exceptions.UsernameAlreadyExistsException;
 import com.primefit.tool.exceptions.WeakPasswordException;
 import com.primefit.tool.model.User;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+/**
+ * Interface used for declaring the methods signatures that can be performed with a user
+ */
 public interface UserService {
 
     /**
-     * Get a list with all the trainings.
+     * Get a list with all the trainings
      *
-     * @return a list with all the trainings.
+     * @return a list with all the trainings
      */
     List<User> findAll();
 
@@ -30,7 +31,7 @@ public interface UserService {
     User findById(Integer id);
 
     /**
-     * Find a specific user based on username.
+     * Find a specific user based on username
      *
      * @param username - username of user
      * @return found user.
@@ -38,15 +39,15 @@ public interface UserService {
     Optional<User> findByUsername(String username);
 
     /**
-     * Save a user.
+     * Save a user
      *
      * @param user - user entity
-     * @return saved user.
+     * @return saved user
      */
     User save(User user);
 
     /**
-     * Update all information for a specific user.
+     * Update all information for a specific user
      *
      * @param newUser - the user who will be persisted
      * @param id      - current user id
@@ -55,14 +56,14 @@ public interface UserService {
     User update(User newUser, Integer id);
 
     /**
-     * Delete a user by a specific id.
+     * Delete a user by a specific id
      *
      * @param id - persisted user id
      */
     void deleteById(Integer id);
 
     /**
-     * Check if the username already exists but no exception is thrown.
+     * Check if the username already exists but no exception is thrown
      *
      * @param username - username of user
      * @return true if the username already exist, otherwise false
@@ -70,7 +71,7 @@ public interface UserService {
     boolean IsUsernameAlreadyExists(String username) throws UsernameAlreadyExistsException;
 
     /**
-     * Verify is the user email is valid.
+     * Verify is the user email is valid
      *
      * @param email - email of user
      * @throws InvalidEmailException - if a user email is invalid
