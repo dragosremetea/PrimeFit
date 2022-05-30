@@ -1,5 +1,7 @@
 package com.primefit.tool.service.trainingservice.impl;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.primefit.tool.exceptions.ResourceNotFoundException;
 import com.primefit.tool.model.Training;
 import com.primefit.tool.repository.TrainingRepository;
@@ -64,8 +66,24 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public void deleteById(Integer id) {
-        trainingRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Training", "id", id));
-        trainingRepository.deleteById(id);
+
+        Optional<Training> optionalTraining = findById(id);
+        if (optionalTraining.isPresent()) {
+
+            Training training = optionalTraining.get();
+
+            String bucketName = "hardwear-pad-jmk";
+
+            String filename = training.getPdfUrl().replaceAll("https://" + bucketName + ".s3.eu-central-1.amazonaws.com/", "");
+
+            AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion("eu-central-1").build();
+            s3client.deleteObject(bucketName, filename);
+
+            trainingRepository.deleteById(id);
+        }
+        else {
+            throw new ResourceNotFoundException("Training", "id", id);
+        }
     }
 
     @Override

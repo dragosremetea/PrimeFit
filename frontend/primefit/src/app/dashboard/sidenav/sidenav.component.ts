@@ -12,39 +12,31 @@ import { TrainingService } from 'src/app/services/training.service';
 })
 export class SidenavComponent implements OnInit {
 
-  intensity: TrainingIntensity[] = [
-    // { id: "Low", name: "Low", TrainingIntensity: 'LOW' },
-    // { id: "Medium", name: "Medium", TrainingIntensity: 'MEDIUM' },
-    // { id: "Extreme", name: "Extreme", TrainingIntensity: 'EXTREME' }
-    TrainingIntensity.LOW,
-    TrainingIntensity.MEDIUM,
-    TrainingIntensity.EXTREME
-  ];
+  trainingButton: boolean = true;
+  dietsButton: boolean = false;
+  remindersButton: boolean = false;
 
-  selectedFile: any = null;
-
-  training: Training = new Training();
-
-  constructor(
-    public authService: AuthService,
-    public trainingService: TrainingService
-  ) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
-  onFileSelected(event: any): void {
-      this.selectedFile = event.target.files[0] ?? null;
+  pressTrainings() {
+    this.trainingButton = true;
+    this.dietsButton = false;
+    this.remindersButton = false;
+    console.log(this.trainingButton);
   }
 
-  saveTraining() {
-    console.log(this.training.name);
-    console.log(this.training.trainingIntensity);
-    console.log(this.training.duration);
-    console.log(this.selectedFile);
-    console.log(this.training);
-    this.trainingService.createTraining(this.training, this.selectedFile).subscribe(data => {
-    })
+  pressDiets() {
+    this.trainingButton = false;
+    this.dietsButton = true;
+    this.remindersButton = false;
   }
 
+  pressReminders() {
+    this.trainingButton = false;
+    this.dietsButton = false;
+    this.remindersButton = true;
+  }
 }

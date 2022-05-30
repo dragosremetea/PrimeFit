@@ -13,9 +13,9 @@ export class TrainingService {
 
   constructor(private httpClient: HttpClient) {}
 
-  // createTraining(training: Training, file: File): Observable<object> {
-  //   return this.httpClient.post(`${this.apiServerUrl}/trainings`, file);
-  // }
+  getTrainings(): Observable<Training[]> {
+    return this.httpClient.get<Training[]>(`${this.apiServerUrl}/trainings`);
+  }
 
   createTraining(training: Training, currentFile: File): Observable<Training> {
     const formData: FormData = new FormData();
@@ -27,4 +27,9 @@ export class TrainingService {
         responseType: 'json',
     });
   }
+
+  delete(trainingId: number) {
+    return this.httpClient.delete<Training>(`${this.apiServerUrl}/trainings/${trainingId}`);
+  }
+
 }

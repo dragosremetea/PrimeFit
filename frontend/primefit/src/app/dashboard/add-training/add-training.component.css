@@ -101,3 +101,19 @@ mat-tab-group {
 .file-name {
     margin-left: 1rem; /* or whatever margin you require */
 }
+
+table {
+    width: 100%;
+  }
+
+.mat-icon{
+    height:20px !important;
+    width:20px !important;
+    font-size:20px !important;
+}
+
+.action-buttons {
+    height:37px !important;
+    margin: 5px;
+    width:37px !important;
+}

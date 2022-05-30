@@ -1,0 +1,70 @@
+<mat-sidenav-container *ngIf="authService.isLoggedIn$ | async">
+    <div class="content mat-elevation-z8">
+        <mat-tab-group>
+            <mat-tab label="Trainings">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                    <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+                  
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="Name">
+                      <th mat-header-cell *matHeaderCellDef> Name </th>
+                      <td mat-cell *matCellDef="let training"> {{ training.name }} </td>
+                    </ng-container>
+                  
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="Duration">
+                      <th mat-header-cell *matHeaderCellDef> Duration </th>
+                      <td mat-cell *matCellDef="let training"> {{ training.duration }} </td>
+                    </ng-container>
+                  
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="Intensity">
+                      <th mat-header-cell *matHeaderCellDef> Intensity </th>
+                      <td mat-cell *matCellDef="let training"> {{ this.getTrainingIntensityAsString(intensity) }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Actions">
+                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                        <td mat-cell *matCellDef="let row" >
+                            <button mat-mini-fab (click)="deleteTraining(row)" class="action-buttons" color="basic" style="background-color:#1f85e5">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                            <button mat-mini-fab class="action-buttons" color="basic" style="background-color:#1f85e5">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+            </mat-tab>
+            <mat-tab label="Add training">
+                <mat-card-content>
+                    <mat-form-field class="example-full-width" style="padding-top: 7px">
+                        <input matInput placeholder="Name" [(ngModel)]="training.name" type="text">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Duration" [(ngModel)]="training.duration" type="number">
+                    </mat-form-field>
+                    <mat-form-field class="example-full-width">
+                        <mat-select placeholder="Intensity" [(ngModel)]="training.trainingIntensity">
+                            <mat-option [value]="intensity[0]">LOW</mat-option>
+                            <mat-option [value]="intensity[1]">MEDIUM</mat-option>
+                            <mat-option [value]="intensity[2]">EXTREME</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div class="example-full-width">
+                        <p style="color:grey">Training PDF</p>
+                        <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+                        <input hidden (change)="onFileSelected($event)" #fileInput type="file">
+                        <span class="file-name">{{selectedFile?.name}}</span>
+                    </div>
+                    <button mat-stroked-button class="btn-block-save" (click)="saveTraining()">Save Training</button>
+                </mat-card-content>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</mat-sidenav-container>

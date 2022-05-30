@@ -48,7 +48,8 @@ import { MatHeaderCell } from '@angular/material/table';
         MatToolbarModule,
         BrowserAnimationsModule,
         MatTabsModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTableModule
     ],
     exports: [
         MatButtonModule,
@@ -61,7 +62,8 @@ import { MatHeaderCell } from '@angular/material/table';
         MatTooltipModule,
         MatToolbarModule,
         MatTabsModule,
-        MatSelectModule
+        MatSelectModule,
+        MatTableModule
     ]
 })
 export class MaterialModule { }

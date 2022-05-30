@@ -13,6 +13,9 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { SidenavComponent } from './dashboard/sidenav/sidenav.component';
+import { AddTrainingComponent } from './dashboard/add-training/add-training.component';
+import { AddDietComponent } from './dashboard/add-diet/add-diet.component';
+import { RemindersComponent } from './dashboard/reminders/reminders.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { SidenavComponent } from './dashboard/sidenav/sidenav.component';
     UserComponent,
     UserLoginComponent,
     UserRegisterComponent,
-    SidenavComponent
+    SidenavComponent,
+    AddTrainingComponent,
+    AddDietComponent,
+    RemindersComponent
   ],
   imports: [
     BrowserModule,

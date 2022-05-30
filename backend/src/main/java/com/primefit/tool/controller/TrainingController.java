@@ -64,7 +64,7 @@ public class TrainingController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Training> createTraining(@RequestBody @NotNull Training training,
+    public ResponseEntity<Training> createTraining(@RequestPart("training") Training training,
                                                    @RequestParam("currentFile") MultipartFile currentFile) {
 
         if (training.getId() != null) {

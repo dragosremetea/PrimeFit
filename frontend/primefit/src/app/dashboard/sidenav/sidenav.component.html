@@ -1,47 +1,21 @@
 <mat-toolbar>
 </mat-toolbar>
     
-<mat-sidenav-container *ngIf="authService.isLoggedIn$ | async">
+<mat-sidenav-container>
     <mat-sidenav mode="side" opened>
         <ng-container matColumnDef="imageUrl">
             <img class="logo" src="../../../assets/Logo.png">
         </ng-container>
         <ng-container>
-            <button mat-stroked-button color="basic" color="basic" class="btn-block">Trainings</button>
-            <button mat-stroked-button color="basic" color="basic" class="btn-block">Diet Plans</button>
-            <button mat-stroked-button color="basic" color="basic" class="btn-block">Reminders</button>
+            <button mat-stroked-button color="basic" color="basic" class="btn-block" (click)="pressTrainings()">Trainings</button>
+            <button mat-stroked-button color="basic" color="basic" class="btn-block"(click)="pressDiets()">Diet Plans</button>
+            <button mat-stroked-button color="basic" color="basic" class="btn-block"(click)="pressReminders()">Reminders</button>
             <button mat-stroked-button color="basic" color="basic" class="btn-block">Logout</button>
         </ng-container>   
     </mat-sidenav>
     <mat-sidenav-content>
-        <div class="content mat-elevation-z8">
-            <mat-tab-group>
-                <mat-tab label="Add training">
-                    <mat-card-content>
-                        <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Name" [(ngModel)]="training.name" type="text">
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Duration" [(ngModel)]="training.duration" type="number">
-                        </mat-form-field>
-                        <mat-form-field class="example-full-width">
-                            <mat-select placeholder="Intensity" [(ngModel)]="training.trainingIntensity">
-                                <mat-option [value]="intensity[0]">LOW</mat-option>
-                                <mat-option [value]="intensity[1]">MEDIUM</mat-option>
-                                <mat-option [value]="intensity[2]">EXTREME</mat-option>
-                              </mat-select>
-                        </mat-form-field>
-                        <div class="example-full-width">
-                            <p style="color:grey">Training PDF</p>
-                            <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
-                            <input hidden (change)="onFileSelected($event)" #fileInput type="file">
-                            <span class="file-name">{{selectedFile?.name}}</span>
-                        </div>
-                        <button mat-stroked-button color="" class="btn-block-save" (click)="saveTraining()">Save Training</button>
-                    </mat-card-content>
-                </mat-tab>
-                <mat-tab label="Trainings"> Da, este </mat-tab>
-              </mat-tab-group>
-        </div>
+        <app-add-training [hidden]="!trainingButton"></app-add-training>
+        <app-add-diet [hidden]="!dietsButton"></app-add-diet>
+        <app-reminders [hidden]="!remindersButton"></app-reminders>
     </mat-sidenav-content>
 </mat-sidenav-container>
