@@ -36,12 +36,6 @@ public class TrainingController {
         return trainingService.findAll();
     }
 
-    @PostMapping
-    public ResponseEntity<Training> saveTraining(@RequestBody Training training) {
-        trainingService.save(training);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
     public String uploadPdfAsUrl(MultipartFile storedPdf, String bucketName, Training training) {
 
         File pdf;
@@ -69,8 +63,9 @@ public class TrainingController {
         return "https://" + bucketName + ".s3.eu-central-1.amazonaws.com/" + fileName;
     }
 
-    @PostMapping("/items")
-    public ResponseEntity<Training> createTraining(@RequestBody @NotNull Training training, @RequestParam("currentFile") MultipartFile currentFile) {
+    @PostMapping("")
+    public ResponseEntity<Training> createTraining(@RequestBody @NotNull Training training,
+                                                   @RequestParam("currentFile") MultipartFile currentFile) {
 
         if (training.getId() != null) {
             Optional<Training> optionalItem = trainingService.findById(training.getId());
@@ -80,7 +75,7 @@ public class TrainingController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Item id should be null");
         }
 
-        String bucketName = "primefittool";
+        String bucketName = "hardwear-pad-jmk";
 
         if (currentFile != null) {
             String pdfAsUrl = uploadPdfAsUrl(currentFile, bucketName, training);

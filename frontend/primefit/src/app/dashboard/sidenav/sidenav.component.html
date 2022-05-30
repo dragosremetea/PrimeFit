@@ -15,7 +15,33 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <div class="content mat-elevation-z8">
-            Main content here!
+            <mat-tab-group>
+                <mat-tab label="Add training">
+                    <mat-card-content>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Name" [(ngModel)]="training.name" type="text">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <input matInput placeholder="Duration" [(ngModel)]="training.duration" type="number">
+                        </mat-form-field>
+                        <mat-form-field class="example-full-width">
+                            <mat-select placeholder="Intensity" [(ngModel)]="training.trainingIntensity">
+                                <mat-option [value]="intensity[0]">LOW</mat-option>
+                                <mat-option [value]="intensity[1]">MEDIUM</mat-option>
+                                <mat-option [value]="intensity[2]">EXTREME</mat-option>
+                              </mat-select>
+                        </mat-form-field>
+                        <div class="example-full-width">
+                            <p style="color:grey">Training PDF</p>
+                            <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+                            <input hidden (change)="onFileSelected($event)" #fileInput type="file">
+                            <span class="file-name">{{selectedFile?.name}}</span>
+                        </div>
+                        <button mat-stroked-button color="" class="btn-block-save" (click)="saveTraining()">Save Training</button>
+                    </mat-card-content>
+                </mat-tab>
+                <mat-tab label="Trainings"> Da, este </mat-tab>
+              </mat-tab-group>
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>

@@ -32,8 +32,8 @@ mat-sidenav {
     justify-content: center;
     align-items: center;
 
-    font-size: 2rem;
-    color: lightgray;
+    /* font-size: 2rem; */
+    color: black;
 }
 
 mat-sidenav-container {
@@ -57,12 +57,49 @@ mat-sidenav-container {
     font-family: 'Times New Roman', Times, serif;
   }
 
+  .btn-block-save {
+    border-radius: 5px;
+    line-height: 120%;
+    margin-top: 3%;
+    margin-left: 57%;
+    padding: auto !important;
+    border-color: transparent;
+    width: 12%;
+    color: #4d4d4d;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+  }
+
 .btn-block:hover {
     color: white;
     background-color: #1f85e5;
 }
 
-p {
-    color: black;
-    
+.btn-block-save:hover {
+    color: white;
+    background-color: #1f85e5;
+}
+
+mat-tab-group {
+    margin-bottom: 1px;
+    margin-left : 1px;
+    width: 100%;
+    height: 100%;
+}
+
+.example-form {
+    min-width: 100%;
+    max-width: 300px;
+    width: 100%;
+    display: flex;
+  }
+
+  .example-full-width {
+      width: 100%;
+      padding-left: 5%;
+      padding-right: 30%;
+  }
+
+  .file-name {
+    margin-left: 1rem; /* or whatever margin you require */
 }
