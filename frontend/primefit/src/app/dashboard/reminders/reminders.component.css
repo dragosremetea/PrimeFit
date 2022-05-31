@@ -23,7 +23,7 @@ mat-sidenav {
 }
 
 .content {
-    height: calc(100vh - 98px);
+    height: calc(100% - 32px);
     border-radius: 10px;
     margin: 16px;
     margin-left: 32px;
@@ -37,7 +37,7 @@ mat-sidenav {
 }
 
 mat-sidenav-container {
-    height: calc(100vh - 65px);
+    height: 100%;
     background-color: #F1F3F4;
 }
 
@@ -100,4 +100,20 @@ mat-tab-group {
 
 .file-name {
     margin-left: 1rem; /* or whatever margin you require */
+}
+
+table {
+    width: 100%;
+  }
+
+.mat-icon{
+    height:20px !important;
+    width:20px !important;
+    font-size:20px !important;
+}
+
+.action-buttons {
+    height:37px !important;
+    margin: 5px;
+    width:37px !important;
 }

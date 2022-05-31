@@ -16,7 +16,10 @@ export class SidenavComponent implements OnInit {
   dietsButton: boolean = false;
   remindersButton: boolean = false;
 
-  constructor(public authService: AuthService) { }
+  constructor(
+    public authService: AuthService, 
+    public router: Router
+    ) { }
 
   ngOnInit(): void {
   }
@@ -38,5 +41,10 @@ export class SidenavComponent implements OnInit {
     this.trainingButton = false;
     this.dietsButton = false;
     this.remindersButton = true;
+  }
+
+  logout() {
+    localStorage.removeItem('currentUser');
+    this.router.navigate(['/login']);
   }
 }

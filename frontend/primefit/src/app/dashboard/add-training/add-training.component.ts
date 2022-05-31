@@ -37,10 +37,6 @@ export class AddTrainingComponent implements OnInit {
     this.getAllTrainings();
   }
 
-  ngOnChanges(): void {
-    this.getAllTrainings();
-  }
-
   onFileSelected(event: any): void {
       this.selectedFile = event.target.files[0] ?? null;
   }
@@ -48,11 +44,13 @@ export class AddTrainingComponent implements OnInit {
   saveTraining() {
     this.trainingService.createTraining(this.training, this.selectedFile).subscribe(data => {
       this.router.navigate(['/dashboard']);
+      this.refresh();
     })
   }
 
   deleteTraining(row: any) {
     this.trainingService.delete(row.id).subscribe(data => {
+      this.refresh();
     })
   }
 
@@ -60,6 +58,10 @@ export class AddTrainingComponent implements OnInit {
     this.trainingService.getTrainings().subscribe(data => {
       this.dataSource = this.dataSource.concat(data);
     })
+  }
+
+  refresh(): void {
+    window.location.reload();
   }
 
   getTrainingIntensityAsString(intensities: TrainingIntensity[]): string {
@@ -71,7 +73,7 @@ export class AddTrainingComponent implements OnInit {
       if(x == 1) {
         intensityAsString = 'MEDIUM';
       }
-      if(x == 0) {
+      if(x == 2) {
         intensityAsString = 'EXTREME';
       }
     });

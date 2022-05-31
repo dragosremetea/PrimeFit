@@ -9,6 +9,7 @@ import com.amazonaws.services.s3.transfer.TransferManager;
 import com.amazonaws.services.s3.transfer.TransferManagerBuilder;
 import com.amazonaws.services.s3.transfer.Upload;
 import com.primefit.tool.model.Diet;
+import com.primefit.tool.model.Training;
 import com.primefit.tool.service.dietservice.DietService;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -59,7 +60,7 @@ public class DietController {
     }
 
     @PostMapping
-    public ResponseEntity<Diet> createDiet(@RequestBody @NotNull Diet diet, @RequestParam("currentFile") MultipartFile currentFile) {
+    public ResponseEntity<Diet> createDiet(@RequestPart("diet") Diet diet, @RequestParam("currentFile") MultipartFile currentFile) {
 
         if (diet.getId() != null) {
             Optional<Diet> optionalItem = dietService.findById(diet.getId());
@@ -69,7 +70,7 @@ public class DietController {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "Diet id should be null");
         }
 
-        String bucketName = "primefittool";
+        String bucketName = "hardwear-pad-jmk";
 
         if (currentFile != null) {
             String pdfAsUrl = uploadPdfAsUrl(currentFile, bucketName, diet);

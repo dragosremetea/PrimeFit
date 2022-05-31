@@ -5,5 +5,5 @@ public enum DietCategory {
     VEGAN,
     GLUTEN_FREE,
     PALEO,
-    MEDITERANEAN
+    MEDITERRANEAN
 }
