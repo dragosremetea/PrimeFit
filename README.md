@@ -8,7 +8,7 @@ This website is an administrative tool for gym organization, administration, and
 
 Initial specs can be found [**here**](https://github.com/dragosremetea/PrimeFit/blob/main/PrimeFit%20tool%20specs.docx)
 
-## Technologies used:
+### Technologies used:
   <p>
     <a href="https://www.postgresql.org/">
       <img alt="Postgres_image" src="https://img.shields.io/badge/PostgreSQL-316192?style=or-the-badge&logo=postgresql&logoColor=white" />
@@ -24,7 +24,7 @@ Initial specs can be found [**here**](https://github.com/dragosremetea/PrimeFit/
   </p>
 
 
-## Running the application for BE
+### Running the application for BE
 * **Build and run tests**
 <pre>
 mvn clean install
@@ -36,7 +36,7 @@ mvn spring-boot:run
 </pre>
 
 
-## Running the application for FE
+### Running the application for FE
 * **Build**
 <pre>
 ng build
