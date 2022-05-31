@@ -42,7 +42,7 @@ public class DietController {
 
         AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion("eu-central-1").build();
         TransferManager xfer_mgr = TransferManagerBuilder.standard().withS3Client(s3client).build();
-        String fileName = "Training-pdf-for-" + diet.getName() + "-" + new Timestamp(System.currentTimeMillis()) + ".pdf";
+        String fileName = "Diet-pdf-for-" + diet.getName() + "-" + new Timestamp(System.currentTimeMillis()) + ".pdf";
         fileName = fileName.replaceAll(" ", "-");
         try {
             Upload xfer = xfer_mgr.upload(new PutObjectRequest(bucketName, fileName, pdf)
@@ -58,7 +58,7 @@ public class DietController {
         return "https://" + bucketName + ".s3.eu-central-1.amazonaws.com/" + fileName;
     }
 
-    @PostMapping("/items")
+    @PostMapping
     public ResponseEntity<Diet> createDiet(@RequestBody @NotNull Diet diet, @RequestParam("currentFile") MultipartFile currentFile) {
 
         if (diet.getId() != null) {

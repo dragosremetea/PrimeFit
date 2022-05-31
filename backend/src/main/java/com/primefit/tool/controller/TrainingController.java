@@ -62,9 +62,8 @@ public class TrainingController {
         return "https://" + bucketName + ".s3.eu-central-1.amazonaws.com/" + fileName;
     }
 
-    @PostMapping("")
-    public ResponseEntity<Training> createTraining(@RequestPart("training") Training training,
-                                                   @RequestParam("currentFile") MultipartFile currentFile) {
+    @PostMapping
+    public ResponseEntity<Training> createTraining(@RequestPart("training") Training training, @RequestParam("currentFile") MultipartFile currentFile) {
 
         if (training.getId() != null) {
             Optional<Training> optionalItem = trainingService.findById(training.getId());
