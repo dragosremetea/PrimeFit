@@ -54,7 +54,6 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-
     @DeleteMapping("{id}")
     public ResponseEntity<User> deleteUserById(@PathVariable("id") Integer id) {
         confirmationTokenService.delete(id);

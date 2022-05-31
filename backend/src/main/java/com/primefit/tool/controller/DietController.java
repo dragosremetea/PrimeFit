@@ -84,16 +84,4 @@ public class DietController {
     public List<Diet> getDietList() {
         return dietService.findAll();
     }
-
-    @PostMapping
-    public ResponseEntity<Diet> saveDiet(@RequestBody Diet diet) {
-        dietService.save(diet);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Diet> updateTraining(@RequestBody Diet newDiet, @PathVariable Integer id) {
-        dietService.update(newDiet, id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 }

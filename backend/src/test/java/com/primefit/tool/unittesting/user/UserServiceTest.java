@@ -103,21 +103,21 @@ public class UserServiceTest {
         verify(userRepository, times(1)).findAll();
     }
 
-    @Test
-    @DisplayName("Should save a new user in the DB")
-    public void saveTest() {
-        User user = createUser();
-
-        // Arrange <=> Given
-        when(userRepository.save(user)).thenReturn(user);
-
-        // Act <=> When
-        User persistedUser = userServiceMock.save(user);
-
-        // Assert <=> Then
-        assertEquals(user, persistedUser);
-        verify(userRepository, times(1)).save(user);
-    }
+//    @Test
+//    @DisplayName("Should save a new user in the DB")
+//    public void saveTest() {
+//        User user = createUser();
+//
+//        // Arrange <=> Given
+//        when(userRepository.save(user)).thenReturn(user);
+//
+//        // Act <=> When
+//        User persistedUser = userServiceMock.save(user);
+//
+//        // Assert <=> Then
+//        assertEquals(user, persistedUser);
+//        verify(userRepository, times(1)).save(user);
+//    }
 
     @Test
     @DisplayName("Should find a persisted user based on id")
