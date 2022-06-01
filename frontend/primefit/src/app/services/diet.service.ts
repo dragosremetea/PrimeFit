@@ -32,7 +32,7 @@ export class DietService {
     return this.httpClient.delete<Diet>(`${this.apiServerUrl}/diets/${dietId}`);
   }
 
-  send(dietId: number, userId: number): void {
-    this.httpClient.get<any>(`${this.apiServerUrl}/diets/sendDietPlan/${dietId}/${userId}`);
+  send(dietId: number, userId: number) {
+    return this.httpClient.post<Diet>(`${this.apiServerUrl}/diets/sendDietPlan/${dietId}/${userId}`, null);
   }
 }

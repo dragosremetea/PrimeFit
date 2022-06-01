@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Diet, DietCategory } from 'src/app/models/diet.model';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { DietService } from 'src/app/services/diet.service';
 import { SidenavComponent } from '../sidenav/sidenav.component';
@@ -22,9 +23,13 @@ export class AddDietComponent implements OnInit {
 
   selectedFile: any = null;
 
+  userObject!: User;
+
   diet: Diet = new Diet();
 
   dataSource: Diet[] = [];
+
+  id: any;
 
   displayedColumns: string[] = ['Name', 'Category', 'Actions'];
 
@@ -45,10 +50,6 @@ export class AddDietComponent implements OnInit {
       this.selectedFile = event.target.files[0] ?? null;
   }
 
-  get loggedUser(): any {
-    return localStorage.getItem('currentUser');
-  }
-
   saveDiet() {
     this.dietService.createDiet(this.diet, this.selectedFile).subscribe(data => {
       this.router.navigate(['/dashboard']);
@@ -67,7 +68,9 @@ export class AddDietComponent implements OnInit {
   }
 
   sendEmail(row: any) {
-    this.dietService.send(row.id, this.loggedUser.id);
+    this.id = localStorage.getItem('currentUser')
+    this.dietService.send(row.id, parseInt(this.id)).subscribe(data => {
+    });
   }
 
   getAllDiets() {

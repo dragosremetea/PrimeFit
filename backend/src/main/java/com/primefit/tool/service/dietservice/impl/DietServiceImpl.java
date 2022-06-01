@@ -87,8 +87,8 @@ public class DietServiceImpl implements DietService {
         Optional<Diet> optionalDiet = findById(dietId);
 
         if (optionalDiet.isPresent()) {
-            String info = optionalDiet.get().getPdfUrl();
-
+            String info = "<a href='" + optionalDiet.get().getPdfUrl() + "' target=\"_blank\"> here </a><br>Great";
+            System.out.println(optionalDiet.get().getPdfUrl());
             User user = userService.findById(userId);
 
             emailService.sendDiet(user.getEmail(), info);   //sending the url of the diet as body

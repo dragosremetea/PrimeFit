@@ -27,7 +27,7 @@ export class AuthService {
   login(user: User) {
     return this.userService.loginUser(user).pipe(
       tap((data: any) => {
-        localStorage.setItem('currentUser', data);
+        localStorage.setItem('currentUser', data.id);
         this._isLoggedIn$.next(true);
         this.user = data;
       })

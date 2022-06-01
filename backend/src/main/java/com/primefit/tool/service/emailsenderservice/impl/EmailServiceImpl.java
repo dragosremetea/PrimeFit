@@ -63,7 +63,7 @@ public class EmailServiceImpl implements EmailService {
     public void sendDiet(String to, String body) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
             helper.setText(body, true);
             helper.setTo(to);
             helper.setSubject("Requested diet plan");

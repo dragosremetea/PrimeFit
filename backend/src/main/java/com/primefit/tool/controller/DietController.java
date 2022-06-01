@@ -87,13 +87,14 @@ public class DietController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Training> deleteTraining(@PathVariable Integer id) {
+    public ResponseEntity<Diet> deleteDiet(@PathVariable Integer id) {
         dietService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/sendDietPlan/{dietId}/{userId}")
-    public void sendDietViaEmail(@PathVariable Integer dietId, @PathVariable Integer userId) {
+    @PostMapping("/sendDietPlan/{dietId}/{userId}")
+    public ResponseEntity<Diet> sendDietViaEmail(@PathVariable Integer dietId, @PathVariable Integer userId) {
         dietService.sendEmailWithDietPlan(dietId, userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
