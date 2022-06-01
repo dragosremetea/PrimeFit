@@ -91,4 +91,9 @@ public class DietController {
         dietService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/sendDietPlan/{dietId}/{userId}")
+    public void sendDietViaEmail(@PathVariable Integer dietId, @PathVariable Integer userId) {
+        dietService.sendEmailWithDietPlan(dietId, userId);
+    }
 }

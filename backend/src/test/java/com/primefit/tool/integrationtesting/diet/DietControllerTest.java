@@ -2,6 +2,7 @@ package com.primefit.tool.integrationtesting.diet;
 
 
 import com.primefit.tool.model.Diet;
+import com.primefit.tool.model.Training;
 import com.primefit.tool.service.dietservice.DietService;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +22,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.Collections;
 
 import static com.primefit.tool.model.DietCategory.LOW_CARB;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -46,7 +48,7 @@ public class DietControllerTest {
     @DisplayName("Should get an empty list of diets from the DB")
     void getDietListEmptyTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/trainings").with(user("admin").password("admin").roles("ADMIN"))
+                        .get("/diets").with(user("admin").password("admin").roles("ADMIN"))
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -68,5 +70,19 @@ public class DietControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$").isNotEmpty())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Vegan diet"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].pdfUrl").value("url"));
+    }
+
+    @Test
+    @DisplayName("Should delete a persisted diet from DB")
+    void deleteDietTest() throws Exception {
+        Diet diet = createDiet();
+
+        doNothing().when(dietService).deleteById(diet.getId());
+
+        mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/diets/{id}", diet.getId()).with(user("admin").password("admin").roles("ADMIN"))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 }

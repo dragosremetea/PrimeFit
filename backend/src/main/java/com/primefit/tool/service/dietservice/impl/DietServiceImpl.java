@@ -5,8 +5,11 @@ import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.primefit.tool.exceptions.ResourceNotFoundException;
 import com.primefit.tool.model.Diet;
 import com.primefit.tool.model.Training;
+import com.primefit.tool.model.User;
 import com.primefit.tool.repository.DietRepository;
 import com.primefit.tool.service.dietservice.DietService;
+import com.primefit.tool.service.emailsenderservice.EmailService;
+import com.primefit.tool.service.userservice.UserService;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -19,11 +22,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Class used for managing diets.
+ */
 @Service
 @AllArgsConstructor
 public class DietServiceImpl implements DietService {
 
     private DietRepository dietRepository;
+
+    private UserService userService;
+
+    private EmailService emailService;
 
     @Override
     public List<Diet> findAll() {
@@ -67,9 +77,21 @@ public class DietServiceImpl implements DietService {
             s3client.deleteObject(bucketName, filename);
 
             dietRepository.deleteById(id);
-        }
-        else {
+        } else {
             throw new ResourceNotFoundException("Diet", "id", id);
+        }
+    }
+
+    @Override
+    public void sendEmailWithDietPlan(Integer dietId, Integer userId) {
+        Optional<Diet> optionalDiet = findById(dietId);
+
+        if (optionalDiet.isPresent()) {
+            String info = optionalDiet.get().getPdfUrl();
+
+            User user = userService.findById(userId);
+
+            emailService.sendDiet(user.getEmail(), info);   //sending the url of the diet as body
         }
     }
 
