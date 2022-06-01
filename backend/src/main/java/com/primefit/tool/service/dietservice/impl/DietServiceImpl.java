@@ -85,14 +85,16 @@ public class DietServiceImpl implements DietService {
     @Override
     public void sendEmailWithDietPlan(Integer dietId, Integer userId) {
         Optional<Diet> optionalDiet = findById(dietId);
+        User user = userService.findById(userId);
 
         if (optionalDiet.isPresent()) {
-          //  String hello = "Hello "
-            String info = "<a href='" + optionalDiet.get().getPdfUrl() + "' target=\"_blank\"> here </a><br>Great";
-            System.out.println(optionalDiet.get().getPdfUrl());
-            User user = userService.findById(userId);
+            String hello = "Hello " + user.getId() + " !";
+            String content = "You can download your requested diet plan from ";
+            String info = "<a href='" + optionalDiet.get().getPdfUrl() + "' target=\"_blank\"> here </a>";
 
-            emailService.sendDiet(user.getEmail(), info);   //sending the url of the diet as body
+            String messageBody = hello + content + info;
+
+            emailService.sendDiet(user.getEmail(), messageBody);
         }
     }
 
