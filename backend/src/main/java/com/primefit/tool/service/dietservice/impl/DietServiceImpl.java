@@ -87,6 +87,7 @@ public class DietServiceImpl implements DietService {
         Optional<Diet> optionalDiet = findById(dietId);
 
         if (optionalDiet.isPresent()) {
+          //  String hello = "Hello "
             String info = "<a href='" + optionalDiet.get().getPdfUrl() + "' target=\"_blank\"> here </a><br>Great";
             System.out.println(optionalDiet.get().getPdfUrl());
             User user = userService.findById(userId);

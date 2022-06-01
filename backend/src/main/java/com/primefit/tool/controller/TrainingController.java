@@ -97,7 +97,8 @@ public class TrainingController {
     }
 
     @PostMapping("/sendTrainingPlan/{trainingId}/{userId}")
-    public void sendTrainingViaEmail(@PathVariable Integer trainingId, @PathVariable Integer userId) {
+    public ResponseEntity<Training> sendTrainingViaEmail(@PathVariable Integer trainingId, @PathVariable Integer userId) {
         trainingService.sendEmailWithTrainingPlan(trainingId, userId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
