@@ -91,15 +91,15 @@ public class TrainingServiceImpl implements TrainingService {
 
     @Override
     public void sendEmailWithTrainingPlan(Integer trainingId, Integer userId) {
-        Optional<Training> optionalTraining = findById(userId);
+        Optional<Training> optionalTraining = findById(trainingId);
         User user = userService.findById(userId);
 
         if (optionalTraining.isPresent()) {
 
-            String hello = "Hello " + user.getId() + " !";
+            String hello = "Hello " + user.getFirstName() + "!<br>";
             String content = "You can download your requested diet plan from ";
             String info = "<a href='" + optionalTraining.get().getPdfUrl() + "' target=\"_blank\"> here </a>";
-            String messageBody = hello + content + info;
+            String messageBody = hello + content + info + ".";
 
             emailService.sendTraining(user.getEmail(), messageBody);
         }

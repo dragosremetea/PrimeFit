@@ -88,11 +88,11 @@ public class DietServiceImpl implements DietService {
         User user = userService.findById(userId);
 
         if (optionalDiet.isPresent()) {
-            String hello = "Hello " + user.getId() + " !";
+            String hello = "Hello " + user.getFirstName() + "!<br>";
             String content = "You can download your requested diet plan from ";
             String info = "<a href='" + optionalDiet.get().getPdfUrl() + "' target=\"_blank\"> here </a>";
 
-            String messageBody = hello + content + info;
+            String messageBody = hello + content + info + ".";
 
             emailService.sendDiet(user.getEmail(), messageBody);
         }
