@@ -43,6 +43,12 @@ public interface DietService {
      */
     Diet update(@NotNull Diet newDiet, Integer id);
 
+    /***
+     * Delete a diet by a specific id.
+     * @param id - the id of persisted diet
+     */
+    void deleteById(Integer id);
+
     /**
      * @param file - the file we want to convert
      * @return converted file into a MultipartFile

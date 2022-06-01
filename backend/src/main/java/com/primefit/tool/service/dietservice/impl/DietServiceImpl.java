@@ -1,6 +1,10 @@
 package com.primefit.tool.service.dietservice.impl;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.primefit.tool.exceptions.ResourceNotFoundException;
 import com.primefit.tool.model.Diet;
+import com.primefit.tool.model.Training;
 import com.primefit.tool.repository.DietRepository;
 import com.primefit.tool.service.dietservice.DietService;
 import lombok.AllArgsConstructor;
@@ -45,6 +49,28 @@ public class DietServiceImpl implements DietService {
         diet.setDietCategory(newDiet.getDietCategory());
 
         return dietRepository.save(diet);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+
+        Optional<Diet> optionalDiet = findById(id);
+        if (optionalDiet.isPresent()) {
+
+            Diet diet = optionalDiet.get();
+
+            String bucketName = "hardwear-pad-jmk";
+
+            String filename = diet.getPdfUrl().replaceAll("https://" + bucketName + ".s3.eu-central-1.amazonaws.com/", "");
+
+            AmazonS3 s3client = AmazonS3ClientBuilder.standard().withRegion("eu-central-1").build();
+            s3client.deleteObject(bucketName, filename);
+
+            dietRepository.deleteById(id);
+        }
+        else {
+            throw new ResourceNotFoundException("Diet", "id", id);
+        }
     }
 
     @Override

@@ -85,4 +85,10 @@ public class DietController {
     public List<Diet> getDietList() {
         return dietService.findAll();
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Training> deleteTraining(@PathVariable Integer id) {
+        dietService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

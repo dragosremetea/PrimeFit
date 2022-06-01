@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Diet, DietCategory } from 'src/app/models/diet.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { DietService } from 'src/app/services/diet.service';
+import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-add-diet',
@@ -32,7 +33,8 @@ export class AddDietComponent implements OnInit {
   constructor(
     public dietService: DietService,
     public router: Router,
-    public authService: AuthService
+    public authService: AuthService,
+    public sidenav: SidenavComponent
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,7 @@ export class AddDietComponent implements OnInit {
     this.dietService.createDiet(this.diet, this.selectedFile).subscribe(data => {
       this.router.navigate(['/dashboard']);
       this.refresh();
+      this.sidenav.pressDiets();
     })
   }
 
@@ -58,12 +61,12 @@ export class AddDietComponent implements OnInit {
 
   getAllDiets() {
     this.dietService.getDiets().subscribe(data => {
-      this.dataSource = this.dataSource.concat(data);
+      this.dataSource = data;
     })
   }
 
   refresh(): void {
-    window.location.reload();
+    this.getAllDiets();
   }
 
   getDietCategoryAsString(categories: DietCategory[]): string {

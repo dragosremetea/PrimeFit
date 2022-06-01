@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Training, TrainingIntensity } from 'src/app/models/training.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { TrainingService } from 'src/app/services/training.service';
+import { SidenavComponent } from '../sidenav/sidenav.component';
 
 @Component({
   selector: 'app-add-training',
@@ -30,7 +31,8 @@ export class AddTrainingComponent implements OnInit {
   constructor(
     public authService: AuthService,
     public trainingService: TrainingService,
-    public router: Router
+    public router: Router,
+    public sidenav: SidenavComponent
   ) { }
 
   ngOnInit(): void {
@@ -56,12 +58,12 @@ export class AddTrainingComponent implements OnInit {
 
   getAllTrainings() {
     this.trainingService.getTrainings().subscribe(data => {
-      this.dataSource = this.dataSource.concat(data);
+      this.dataSource = data;
     })
   }
 
   refresh(): void {
-    window.location.reload();
+    this.getAllTrainings();
   }
 
   getTrainingIntensityAsString(intensities: TrainingIntensity[]): string {

@@ -24,7 +24,7 @@ export class SidenavComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  pressTrainings() {
+  public pressTrainings() {
     this.trainingButton = true;
     this.dietsButton = false;
     this.remindersButton = false;
