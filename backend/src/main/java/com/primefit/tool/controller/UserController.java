@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +39,13 @@ public class UserController {
 
     @PostMapping("")
     public ResponseEntity<User> saveUser(@RequestBody User user) {
+        LocalDateTime now = LocalDateTime.now();
+
+        user.setGymSubscriptionStartDate(LocalDate.from(now));
+        user.setEnabled(true);
+        user.setLocked(false);
         User savedUser = userService.save(user);
+
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
 
