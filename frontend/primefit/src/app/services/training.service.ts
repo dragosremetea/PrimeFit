@@ -32,4 +32,8 @@ export class TrainingService {
     return this.httpClient.delete<Training>(`${this.apiServerUrl}/trainings/${trainingId}`);
   }
 
+  send(trainingId: number, userId: number) {
+    return this.httpClient.post<Training>(`${this.apiServerUrl}/trainings/sendTrainingPlan/${trainingId}/${userId}`, null);
+  }
+
 }

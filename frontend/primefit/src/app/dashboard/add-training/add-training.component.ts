@@ -22,6 +22,8 @@ export class AddTrainingComponent implements OnInit {
 
   training: Training = new Training();
 
+  id: any;
+
   dataSource: Training[] = [];
 
   displayedColumns: string[] = ['Name', 'Duration', 'Intensity', 'Actions'];
@@ -58,6 +60,12 @@ export class AddTrainingComponent implements OnInit {
     this.trainingService.delete(row.id).subscribe(data => {
       this.refresh();
     })
+  }
+
+  sendEmail(row: any) {
+    this.id = localStorage.getItem('currentUser')
+    this.trainingService.send(row.id, parseInt(this.id)).subscribe(data => {
+    });
   }
 
   getAllTrainings() {
