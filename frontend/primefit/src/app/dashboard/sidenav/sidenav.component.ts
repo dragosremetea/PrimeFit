@@ -15,6 +15,7 @@ export class SidenavComponent implements OnInit {
   trainingButton: boolean = true;
   dietsButton: boolean = false;
   remindersButton: boolean = false;
+  registerButton: boolean = false;
 
   constructor(
     public authService: AuthService, 
@@ -28,19 +29,28 @@ export class SidenavComponent implements OnInit {
     this.trainingButton = true;
     this.dietsButton = false;
     this.remindersButton = false;
-    console.log(this.trainingButton);
+    this.registerButton = false;
   }
 
   pressDiets() {
     this.trainingButton = false;
     this.dietsButton = true;
     this.remindersButton = false;
+    this.registerButton = false;
   }
 
   pressReminders() {
     this.trainingButton = false;
     this.dietsButton = false;
     this.remindersButton = true;
+    this.registerButton = false;
+  }
+
+  pressRegister() {
+    this.trainingButton = false;
+    this.dietsButton = false;
+    this.remindersButton = false;
+    this.registerButton = true;
   }
 
   logout() {

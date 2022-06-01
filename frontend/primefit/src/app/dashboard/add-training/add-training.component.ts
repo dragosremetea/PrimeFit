@@ -47,6 +47,10 @@ export class AddTrainingComponent implements OnInit {
     this.trainingService.createTraining(this.training, this.selectedFile).subscribe(data => {
       this.router.navigate(['/dashboard']);
       this.refresh();
+      this.training.name = "";
+      this.training.duration = 0;
+      this.training.pdfUrl = "";
+      this.selectedFile = "";
     })
   }
 

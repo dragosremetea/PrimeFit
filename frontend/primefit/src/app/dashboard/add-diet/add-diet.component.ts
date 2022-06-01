@@ -45,11 +45,18 @@ export class AddDietComponent implements OnInit {
       this.selectedFile = event.target.files[0] ?? null;
   }
 
+  get loggedUser(): any {
+    return localStorage.getItem('currentUser');
+  }
+
   saveDiet() {
     this.dietService.createDiet(this.diet, this.selectedFile).subscribe(data => {
       this.router.navigate(['/dashboard']);
       this.refresh();
       this.sidenav.pressDiets();
+      this.diet.name = "";
+      this.diet.pdfUrl = "";
+      this.selectedFile = "";
     })
   }
 
@@ -57,6 +64,10 @@ export class AddDietComponent implements OnInit {
     this.dietService.delete(row.id).subscribe(data => {
       this.refresh();
     })
+  }
+
+  sendEmail(row: any) {
+    this.dietService.send(row.id, this.loggedUser.id);
   }
 
   getAllDiets() {

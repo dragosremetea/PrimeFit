@@ -10,6 +10,7 @@
             <button mat-stroked-button color="basic" color="basic" class="btn-block" (click)="pressTrainings()">Trainings</button>
             <button mat-stroked-button color="basic" color="basic" class="btn-block"(click)="pressDiets()">Diet Plans</button>
             <button mat-stroked-button color="basic" color="basic" class="btn-block"(click)="pressReminders()">Reminders</button>
+            <button mat-stroked-button color="basic" color="basic" class="btn-block" (click)="pressRegister()">Register User</button>
             <button mat-stroked-button color="basic" color="basic" class="btn-block" (click)="logout()">Logout</button>
         </ng-container>   
     </mat-sidenav>
@@ -17,5 +18,6 @@
         <app-add-training [hidden]="!trainingButton"></app-add-training>
         <app-add-diet [hidden]="!dietsButton"></app-add-diet>
         <app-reminders [hidden]="!remindersButton"></app-reminders>
+        <app-user-register [hidden]="!registerButton"></app-user-register>
     </mat-sidenav-content>
 </mat-sidenav-container>

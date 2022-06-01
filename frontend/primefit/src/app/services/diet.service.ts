@@ -31,4 +31,8 @@ export class DietService {
   delete(dietId: number) {
     return this.httpClient.delete<Diet>(`${this.apiServerUrl}/diets/${dietId}`);
   }
+
+  send(dietId: number, userId: number): void {
+    this.httpClient.get<any>(`${this.apiServerUrl}/diets/sendDietPlan/${dietId}/${userId}`);
+  }
 }

@@ -34,6 +34,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatHeaderCell } from '@angular/material/table';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
     imports: [
@@ -49,7 +50,9 @@ import { MatHeaderCell } from '@angular/material/table';
         BrowserAnimationsModule,
         MatTabsModule,
         MatSelectModule,
-        MatTableModule
+        MatTableModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ],
     exports: [
         MatButtonModule,
@@ -63,7 +66,9 @@ import { MatHeaderCell } from '@angular/material/table';
         MatToolbarModule,
         MatTabsModule,
         MatSelectModule,
-        MatTableModule
+        MatTableModule,
+        MatDatepickerModule,
+        MatNativeDateModule
     ]
 })
 export class MaterialModule { }

@@ -9,10 +9,6 @@ import { IsAuthenticatedGuard } from './is-authenticated.guard';
 
 const routes: Routes = [
   {
-    path: 'register',
-    component: UserRegisterComponent
-  },
-  {
     path: 'login',
     component: UserLoginComponent
   },

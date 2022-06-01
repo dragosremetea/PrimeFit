@@ -27,11 +27,7 @@ export class UserLoginComponent implements OnInit {
   userLogin() {
     this.authService.login(this.user).subscribe(data => {
       this.router.navigate(['/dashboard']);
-    }, error => this.router.navigate(['/register']))
-  }
-
-  goToRegister() {
-    this.router.navigate(['/register']);
+    }, error => alert("Login failed!"))
   }
 
 }
