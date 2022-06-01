@@ -1,11 +1,9 @@
 package com.primefit.tool.controller;
 
-import com.primefit.tool.exceptions.EmailAlreadyExistsException;
-import com.primefit.tool.exceptions.InvalidEmailException;
-import com.primefit.tool.exceptions.UsernameAlreadyExistsException;
-import com.primefit.tool.exceptions.WeakPasswordException;
+import com.primefit.tool.model.Role;
 import com.primefit.tool.model.User;
 import com.primefit.tool.service.confirmationtokenservive.ConfirmationTokenService;
+import com.primefit.tool.service.roleservice.RoleService;
 import com.primefit.tool.service.userservice.UserService;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -17,8 +15,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @AllArgsConstructor
 @RestController
@@ -32,18 +32,27 @@ public class UserController {
 
     private PasswordEncoder passwordEncoder;
 
+    private RoleService roleService;
+
     @GetMapping
     public List<User> getAllUsers() {
         return userService.findAll();
     }
 
     @PostMapping("")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<User> saveUser(@RequestBody @NotNull User user) {
+
+        Role role = new Role("ADMIN");
+        roleService.save(role);
+        Set<Role> set = new HashSet<>();
+        set.add(role);
+
         LocalDateTime now = LocalDateTime.now();
 
         user.setGymSubscriptionStartDate(LocalDate.from(now));
         user.setEnabled(true);
         user.setLocked(false);
+        user.setRoles(set);
         User savedUser = userService.save(user);
 
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
