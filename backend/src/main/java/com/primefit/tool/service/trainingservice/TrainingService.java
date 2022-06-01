@@ -56,6 +56,13 @@ public interface TrainingService {
     void deleteById(Integer id);
 
     /**
+     *
+     * @param trainingId - id of the diet which a user will receive
+     * @param userId - id of the user who receive the email
+     */
+    void sendEmailWithTrainingPlan(Integer trainingId, Integer userId);
+
+    /**
      * @param file - the file we want to convert
      * @return converted file into a MultipartFile
      * @throws IOException - exception in case of failing conversion

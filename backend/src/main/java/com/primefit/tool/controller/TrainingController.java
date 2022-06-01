@@ -95,4 +95,9 @@ public class TrainingController {
         trainingService.update(newTraining, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/sendTrainingPlan/{trainingId}/{userId}")
+    public void sendTrainingViaEmail(@PathVariable Integer trainingId, @PathVariable Integer userId) {
+        trainingService.sendEmailWithTrainingPlan(trainingId, userId);
+    }
 }

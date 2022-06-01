@@ -3,9 +3,14 @@ package com.primefit.tool.service.trainingservice.impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.primefit.tool.exceptions.ResourceNotFoundException;
+import com.primefit.tool.model.Diet;
 import com.primefit.tool.model.Training;
+import com.primefit.tool.model.User;
 import com.primefit.tool.repository.TrainingRepository;
+import com.primefit.tool.service.dietservice.DietService;
+import com.primefit.tool.service.emailsenderservice.EmailService;
 import com.primefit.tool.service.trainingservice.TrainingService;
+import com.primefit.tool.service.userservice.UserService;
 import lombok.AllArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
@@ -26,6 +31,10 @@ import java.util.Optional;
 public class TrainingServiceImpl implements TrainingService {
 
     private TrainingRepository trainingRepository;
+
+    private UserService userService;
+
+    private EmailService emailService;
 
     @Override
     public List<Training> findAll() {
@@ -75,9 +84,21 @@ public class TrainingServiceImpl implements TrainingService {
             s3client.deleteObject(bucketName, filename);
 
             trainingRepository.deleteById(id);
-        }
-        else {
+        } else {
             throw new ResourceNotFoundException("Training", "id", id);
+        }
+    }
+
+    @Override
+    public void sendEmailWithTrainingPlan(Integer trainingId, Integer userId) {
+        Optional<Training> optionalTraining = findById(userId);
+
+        if (optionalTraining.isPresent()) {
+            String info = optionalTraining.get().getPdfUrl();
+
+            User user = userService.findById(userId);
+
+            emailService.sendTraining(user.getEmail(), info);       //sending the url of the training as body
         }
     }
 
