@@ -9,8 +9,7 @@ import { environment } from "src/environments/environment";
 })
 export class UserService {
     private apiServerUrl = environment.apiBaseUrl;
-
-    private baseUrl = "http://localhost:8080/users/login";
+    
     constructor(private httpClient: HttpClient) {}
 
     loginUser(user: User): Observable<object> {
